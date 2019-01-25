@@ -15,9 +15,3 @@ applications:
     private_key: ''
     template: http
     vs_ip: 1.1.1.2
--   members:
-    - 4.4.4.4
-    - 5.5.5.5
-    name: yet_another_app
-    template: http
-    vs_ip: 1.1.1.4
