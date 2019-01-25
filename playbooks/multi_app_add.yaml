@@ -7,8 +7,14 @@
     
   vars:
     uri_method: "POST"
+    # default 'empty' vars to be used when first creating a new tenant
+    applications:
+    -   members:
+        name: 
+        template:
+        vs_ip:
     # temp vars for local testing only - these will come from tower
-    tenant: "foo"
+    tenant: "bar"
     tower_tenant: "stuff_goes_here"
     app_name: yet_another_app
     app_template: http
@@ -18,6 +24,11 @@
       - 5.5.5.5
 
   tasks:
+
+  - name: Check for tenant file and create if it doesn't exist
+    file:
+      path: "../tenant-config/{{ tenant }}.yaml"
+      state: touch
 
   - name: get existing tenant vars 
     include_vars:

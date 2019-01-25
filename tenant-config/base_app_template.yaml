@@ -1,5 +1,0 @@
-    - name: {{tower_app_name}}
-      template: {{tower_template}}
-      vs_ip: {{tower_vs_ip}}
-      members:
-        - {{tower_vs_ip}}
