@@ -20,8 +20,8 @@
     app_template: http
     app_vs_ip: 1.1.1.4
     app_members:
-      - 4.4.4.4
-      - 5.5.5.5
+      - 6.6.6.6
+      - 7.7.7.7
 
   tasks:
 
@@ -73,6 +73,25 @@
     debug:
       msg: "number of existing + new apps = {{ new_apps_length }}"
 
+# Deploy the AS3 declaration to the destination device(s)
+
+  - name: URI POST Tenant
+    uri:
+       #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
+       # temporary for local testing
+       url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
+       method: "{{ uri_method }}"
+       #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+       #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
+       # temporary for local testing
+       user: "admin"
+       password: "admin"
+       validate_certs: no
+       body: "{{ tenant_body }}"
+       body_format: json
+    register: result
+    ignore_errors: True
+
   - name: write new vars
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
@@ -88,18 +107,4 @@
     shell: git push
   
 
-    #### AS3 POST ####
-  - name: URI POST Tenant
-    uri:
-       #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
-       # temporary for local testing
-       url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
-       method: "{{ uri_method }}"
-       #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
-       #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
-       # temporary for local testing
-       user: "admin"
-       password: "admin"
-       validate_certs: no
-       body: "{{ tenant_body }}"
-       body_format: json
+
