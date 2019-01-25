@@ -25,6 +25,10 @@
 
   tasks:
 
+  - name: format new variables from tower into nested list
+    set_fact:
+      format_new_app: [{	"name": "{{app_name}}","template": "{{app_template}}","vs_ip": "{{app_vs_ip}}","members": "{{app_members}}"}]
+
   - name: Check for tenant file and create if it doesn't exist
     file:
       path: "../tenant-config/{{ tenant }}.yaml"
@@ -33,14 +37,15 @@
   - name: get existing tenant vars 
     include_vars:
       file: '../tenant-config/{{ tenant }}.yaml'
-  
+
+  - name: check existing tenant vars, and if empty, set to equal the new ones.
+    set_fact:
+      applications: "{{ format_new_app }}"
+      when: '"{{ applications }}" == ""'
+
   - name: get number of existing apps in tenant 
     set_fact:
       existing_apps_length: "{{ applications|length }}"
-
-  - name: test new variable into nested list
-    set_fact:
-      format_new_app: [{	"name": "{{app_name}}","template": "{{app_template}}","vs_ip": "{{app_vs_ip}}","members": "{{app_members}}"}]
 
   - name: merge new_app into existing tenant apps
     set_fact:
