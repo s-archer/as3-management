@@ -9,7 +9,6 @@
     uri_method: "POST"
     # temp vars for local testing only - these will come from tower
     tenant: "foo"
-    tower_tenant: "stuff_goes_here"
     app_name: yet_another_app
     app_template: http
     app_vs_ip: 1.1.1.4
