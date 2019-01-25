@@ -1,0 +1,86 @@
+---
+- name: Append new app to tenant
+  #  hosts: bigip     # this works on tower
+  hosts: localhost
+  gather_facts: false
+  connection: local
+    
+  vars:
+    uri_method: "POST"
+    # temp vars for local testing only - these will come from tower
+    tenant: "foo"
+    tower_tenant: "stuff_goes_here"
+    app_name: yet_another_app
+    app_template: http
+    app_vs_ip: 1.1.1.4
+    app_members:
+      - 4.4.4.4
+      - 5.5.5.5
+
+  tasks:
+
+  - name: get existing tenant vars 
+    include_vars:
+      file: '../tenant-config/{{ tenant }}.yaml'
+  
+  - name: get number of existing apps in tenant 
+    set_fact:
+      existing_apps_length: "{{ applications|length }}"
+
+  - name: test new variable into nested list
+    set_fact:
+      format_new_app: [{	"name": "{{app_name}}","template": "{{app_template}}","vs_ip": "{{app_vs_ip}}","members": "{{app_members}}"}]
+
+  - name: merge new_app into existing tenant apps
+    set_fact:
+      new_applications: '{{ applications | union(format_new_app) }}'
+  
+  - name: get number of existing + new apps in tenant 
+    set_fact:
+      new_apps_length: "{{ new_applications|length }}"
+
+  - name: render template
+    set_fact:
+      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
+
+# debug a few variables
+
+  - name: list all vars
+    debug:
+      msg: "{{ vars }}"
+
+  - name: write the number of existing apps for debug
+    debug:
+      msg: "number of existing apps = {{ existing_apps_length }}"
+
+  - name: write the number of existing + new apps for debug
+    debug:
+      msg: "number of existing + new apps = {{ new_apps_length }}"
+
+  - name: write new vars
+    copy:
+      content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
+      dest: '../tenant-config/{{tenant}}.yaml'
+  
+  - name: update repo
+    shell: git commit -a -m 'update ../tenant-config/{{tenant}}.yaml'
+  
+  - name: update repo
+    shell: git push
+  
+
+    #### AS3 POST ####
+  - name: URI POST Tenant
+    uri:
+       #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
+       # temporary for local testing
+       url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
+       method: "{{ uri_method }}"
+       #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+       #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
+       # temporary for local testing
+       user: "admin"
+       password: "admin"
+       validate_certs: no
+       body: "{{ tenant_body }}"
+       body_format: json

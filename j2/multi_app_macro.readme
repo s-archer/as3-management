@@ -1,0 +1,126 @@
+#  These will need to be input by Ansible and stored in Git 
+#  *** {{tenant}}_app_vars.yaml start ***
+#
+#- tenant: foo
+#  applications:
+#    - name: foo
+#      template: http
+#      vs_ip: 1.1.1.1
+#      members:
+#        - 2.2.2.2
+#        - 3.3.3.3
+#    - name: bar
+#      template: https
+#      vs_ip: 1.1.1.1
+#      certificate: my_cert
+#      members:
+#        - 3.3.3.3
+#        - 2.2.2.2
+#
+# *** {{tenant}}_app_vars.yaml end ***
+#
+
+#
+# Macros to loop through and add multiple applications, templates and pool members to a single AS3 declaration.
+#
+
+# The template that populates the 'application' class section of the AS3 declaration when https template is chosen.
+
+{% macro http_app(app) %}
+    "{{ app.name }}": {
+        "class": "Application",
+        "template": "http",
+        "serviceMain": {
+            "class": "Service_HTTP",
+            "virtualAddresses": [
+                "{{ app.vs_ip }}"
+            ],
+            "pool": "{{ app.name }}_pool"
+        },
+        "{{ app.name }}_pool": {
+            "class": "Pool",
+            "monitors": [
+                "http"
+            ],
+            "members": [{
+                "servicePort": 80,
+                "serverAddresses": [
+                    {% for mem in app.members %}
+                        "{{ mem }}"
+                        {% if not loop.last %}
+                            ,
+                        {% endif %}
+                    {% endfor %}
+                ]
+            }]
+        }
+    }
+{% endmacro %}
+
+# The template that populates the 'application' class section of the AS3 declaration when https template is chosen.
+
+{% macro https_app(app) %}
+    "{{ app.name }}": {
+        "class": "Application",
+        "template": "https",
+        "serviceMain": {
+            "class": "Service_HTTPS",
+            "virtualAddresses": [
+                "{{ app.vs_ip }}"
+            ],
+            "pool": "{{ app.name }}_pool"
+        },
+        "{{ app.name }}_pool": {
+            "class": "Pool",
+            "monitors": [
+                "http"
+            ],
+            "members": [{
+                "servicePort": 443,
+                "serverAddresses": [
+                    {% for mem in app.members %}
+                        "{{ mem }}"
+                        {% if not loop.last %}
+                            ,
+                        {% endif %}
+                    {% endfor %}
+                ]
+            }]
+        }
+    }
+{% endmacro %}
+ 
+# This macro selects which AS3 template type you want to use, and therefore which of the above macros:
+
+{% macro render_app(app) %}
+    {% if app.template == "http" %}
+        {{ http_app(app) }}
+    {% elif app.template == "https" %}
+        {{ https_app(app) }}
+    {% endif %}
+{% endmacro %}
+
+
+# The template that populates (via macros) the 'AS3', 'ADC' & 'tenant' classes of the AS3 declaration.
+
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.1.0",
+        "id": "CR000008",
+        "label": "test-label",
+        "remark": "test-remark",
+        "{{ tenant }}": {
+            "class": "Tenant",
+            {% for app in applications %}
+                {{ render_app(app) }}
+                    {% if not loop.last %}
+                        ,
+                    {% endif %}
+            {% endfor %}
+        }
+    }
+}
