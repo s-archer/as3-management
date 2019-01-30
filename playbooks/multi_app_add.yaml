@@ -14,8 +14,8 @@
         template:
         vs_ip:
     # temp vars for local testing only - these will come from tower
-    tenant: "homer"
-    app_name: donut
+    tenant: "bart"
+    app_name: eat_my_shorts
     app_template: http
     app_vs_ip: 1.1.1.2
     app_members:
