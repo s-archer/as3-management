@@ -47,7 +47,7 @@
   - name: check existing tenant vars, and if empty, set to equal the new ones.
     set_fact:
       applications: "{{ format_new_app }}"
-      when: '"{{ applications }}" == ""'
+      when: '"{{ applications[0].name }}" == ""'
 
   - name: Applications, **AFTER** checking if it is empty
     debug:
