@@ -1,8 +1,8 @@
 applications:
 -   members:
-    - 2.2.2.3
-    - 3.3.3.3
-    - 4.4.4.3
-    name: app_003
+    - 2.2.2.4
+    - 3.3.3.4
+    - 4.4.4.4
+    name: app_004
     template: http
-    vs_ip: 1.1.1.3
+    vs_ip: 1.1.1.4
