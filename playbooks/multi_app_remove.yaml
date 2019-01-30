@@ -1,7 +1,7 @@
 ---
 - name: Append new app to tenant
-  #  hosts: bigip     # this works on tower
-  hosts: localhost
+  #  hosts: bigip     # this refers to inventory on tower
+  hosts: localhost    # this refers to inventory on tower
   gather_facts: false
   connection: local
     
@@ -10,33 +10,46 @@
     # default 'empty' vars to be used when first creating a new tenant
     applications:
     -   members:
-        name: 
+        app_name: 
         template:
         vs_ip:
+        bigip:
     # temp vars for local testing only - these will come from tower
-    bigip: "local-lab"
-    tenant: "bart"
-    app_name: duff
-    app_template: http
-    app_vs_ip: 1.1.2.3
-    app_members:
-      - 1.1.2.17
-      - 1.1.1.18
-      - 1.1.1.19
+    tower_action: add
+    tower_bigip: "local-lab"
+    tower_tenant: "krusty"
+    tower_app_name: hey_kids
+    tower_app_template: http
+    tower_app_vs_ip: 1.1.3.2
+    tower_app_members:
+      - 1.1.3.14
+      - 1.1.3.15
+      - 1.1.3.16
+
 
   tasks:
 
+  - name: format new variables from tower into nested list
+    set_fact:
+      format_new_app: [{	"app_name": "{{ tower_app_name }}","bigip": "{{ tower_bigip }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
+
+  - name: Check for tenant file and create if it doesn't exist
+    file:
+      path: "../tenant-config/{{ tower_tenant }}.yaml"
+      state: touch
+
   - name: get existing tenant vars 
     include_vars:
-      file: '../tenant-config/{{ tenant }}.yaml'
-  
+      file: '../tenant-config/{{ tower_tenant }}.yaml'
+
+  - name: check existing tenant vars, and if empty, set to equal the new ones.
+    set_fact:
+      applications: "{{ format_new_app }}"
+    when: '"{{ applications }}" == ""'
+
   - name: get number of existing apps in tenant 
     set_fact:
       existing_apps_length: "{{ applications|length }}"
-
-  - name: test new variable into nested list
-    set_fact:
-      format_new_app: [{	"name": "{{app_name}}","template": "{{app_template}}","vs_ip": "{{app_vs_ip}}","members": "{{app_members}}"}]
 
   - name: merge new_app into existing tenant apps
     set_fact:
@@ -50,7 +63,7 @@
     set_fact:
       tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
 
-# debug a few variables
+# debug all variables and number of existing and new apps.
 
   - name: list all vars
     debug:
@@ -65,8 +78,8 @@
       msg: "number of existing + new apps = {{ new_apps_length }}"
 
 # Deploy the AS3 declaration to the destination device(s)
-  
-  - name: URI POST AS3 to REMOVE from BIG-IP '{{ bigip }}', tenant '{{ tenant }}'
+
+  - name: URI POST AS3 to ADD to BIG-IP '{{ tower_bigip }}', tenant '{{ tower_tenant }}'
     uri:
        #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing
@@ -80,19 +93,23 @@
        validate_certs: no
        body: "{{ tenant_body }}"
        body_format: json
+    register: result
+    ignore_errors: True
 
+# After AS3 is successfully deployed, update the source of truth
 
   - name: write new source of truth variables to the tenant file in local clone of the repo
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
-      dest: '../tenant-config/{{tenant}}.yaml'
+      dest: '../tenant-config/{{ tower_tenant }}.yaml'
   
   - name: commit the update to the local repo 
-    shell: git commit -a -m 'update ../tenant-config/{{tenant}}.yaml'
+    shell: git commit -a -m 'update ../tenant-config/{{ tower_tenant }}.yaml'
   
   - name: push the update of the local repo to git
     shell: git push  
+  
 
+  
 
-
- 
+  
