@@ -14,14 +14,14 @@
         template:
         vs_ip:
     # temp vars for local testing only - these will come from tower
-    tenant: "bar"
-    tower_tenant: "stuff_goes_here"
-    app_name: shareef_app_2
+    tenant: "test_shareef"
+    tower_tenant: "another_test"
+    app_name: yet_another_test
     app_template: http
-    app_vs_ip: 1.1.1.6
+    app_vs_ip: 1.1.1.10
     app_members:
-      - 6.6.6.8
-      - 7.7.7.9
+      - 6.6.6.10
+      - 7.7.7.10
 
   tasks:
 
