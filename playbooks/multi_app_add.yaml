@@ -86,7 +86,7 @@
 
 # Deploy the AS3 declaration to the destination device(s)
 
-  - name: URI POST AS3 to BIG-IP {{ bigip }} tenant "{{ tenant }}" 
+  - name: URI POST AS3 to BIG-IP '{{ bigip }}'' tenant '{{ tenant }}'
     uri:
        #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing
