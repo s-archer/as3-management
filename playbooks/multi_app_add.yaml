@@ -14,6 +14,7 @@
         template:
         vs_ip:
     # temp vars for local testing only - these will come from tower
+    bigip: "local-lab"
     tenant: "bart"
     app_name: duff
     app_template: http
@@ -85,7 +86,7 @@
 
 # Deploy the AS3 declaration to the destination device(s)
 
-  - name: URI POST AS3 to /"{{ tenant }}/" tenant
+  - name: URI POST AS3 to BIG-IP {{ bigip }} tenant "{{ tenant }}" 
     uri:
        #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing
