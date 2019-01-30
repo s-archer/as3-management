@@ -38,10 +38,20 @@
     include_vars:
       file: '../tenant-config/{{ tenant }}.yaml'
 
-#  - name: check existing tenant vars, and if empty, set to equal the new ones.
-#    set_fact:
-#      applications: "{{ format_new_app }}"
-#      when: '"{{ applications }}" == ""'
+  - name: Applications, **BEFORE** checking if it is empty
+    debug:
+      msg: "{{ applications }}"
+
+# below is the problem.
+
+  - name: check existing tenant vars, and if empty, set to equal the new ones.
+    set_fact:
+      applications: "{{ format_new_app }}"
+      when: '"{{ applications }}" == ""'
+
+  - name: Applications, **AFTER** checking if it is empty
+    debug:
+      msg: "{{ applications }}"
 
   - name: get number of existing apps in tenant 
     set_fact:
@@ -106,5 +116,3 @@
   - name: update repo
     shell: git push
   
-
-
