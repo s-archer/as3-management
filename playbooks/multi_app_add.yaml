@@ -42,20 +42,10 @@
     include_vars:
       file: '../tenant-config/{{ tower_tenant }}.yaml'
 
-  - name: Applications, **BEFORE** checking if it is empty
-    debug:
-      msg: "{{ applications }}"
-
-# below is the problem.
-
   - name: check existing tenant vars, and if empty, set to equal the new ones.
     set_fact:
       applications: "{{ format_new_app }}"
     when: '"{{ applications }}" == ""'
-
-  - name: Applications, **AFTER** checking if it is empty
-    debug:
-      msg: "{{ applications }}"
 
   - name: get number of existing apps in tenant 
     set_fact:
@@ -73,11 +63,11 @@
     set_fact:
       tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
 
-# debug a few variables
+# debug all variables and number of existing and new apps.
 
-#  - name: list all vars
-#    debug:
-#      msg: "{{ vars }}"
+  - name: list all vars
+    debug:
+      msg: "{{ vars }}"
 
   - name: write the number of existing apps for debug
     debug:
