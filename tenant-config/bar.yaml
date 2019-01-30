@@ -1,7 +1,7 @@
 applications:
 -   members:
-    - 6.6.6.6
-    - 7.7.7.7
-    name: yet_another_app
+    - 6.6.6.7
+    - 7.7.7.8
+    name: shareef_app
     template: http
-    vs_ip: 1.1.1.4
+    vs_ip: 1.1.1.5
