@@ -15,7 +15,7 @@
         vs_ip:
     # temp vars for local testing only - these will come from tower
     bigip: "local-lab"
-    tenant: "bart"
+    tenant: "homer"
     app_name: duff
     app_template: http
     app_vs_ip: 1.1.2.3
