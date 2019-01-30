@@ -16,8 +16,8 @@
         bigip:
     # temp vars for local testing only - these will come from tower
     tower_action: add
-    tower_bigip: "local-lab"
-    tower_tenant: "marge"
+    tower_bigip: local-lab
+    tower_tenant: marge
     tower_app_name: oh_homie
     tower_app_template: http
     tower_app_vs_ip: 1.1.4.1
