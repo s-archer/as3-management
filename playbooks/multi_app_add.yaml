@@ -7,13 +7,8 @@
     
   vars:
     uri_method: "POST"
-    # default 'empty' vars to be used when first creating a new tenant
-    applications: ""
-#    -   members:
-#        app_name: 
-#        template:
-#        vs_ip:
-#        bigip:
+    # default 'empty' application var to be used when first creating a new tenant
+    applications: []
     # temp vars for local testing only - these will come from tower
     tower_action: add
     tower_bigip: "local-lab"
