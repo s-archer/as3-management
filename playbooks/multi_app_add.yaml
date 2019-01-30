@@ -15,13 +15,12 @@
         vs_ip:
     # temp vars for local testing only - these will come from tower
     tenant: "foo"
-    tower_tenant: "another_test_2"
-    app_name: yet_another_test_2
+    app_name: app_001
     app_template: http
-    app_vs_ip: 1.1.1.11
+    app_vs_ip: 1.1.1.1
     app_members:
-      - 6.6.6.11
-      - 7.7.7.11
+      - 2.2.2.1
+      - 3.3.3.1
 
   tasks:
 
@@ -38,10 +37,10 @@
     include_vars:
       file: '../tenant-config/{{ tenant }}.yaml'
 
-  - name: check existing tenant vars, and if empty, set to equal the new ones.
-    set_fact:
-      applications: "{{ format_new_app }}"
-      when: '"{{ applications }}" == ""'
+#  - name: check existing tenant vars, and if empty, set to equal the new ones.
+#    set_fact:
+#      applications: "{{ format_new_app }}"
+#      when: '"{{ applications }}" == ""'
 
   - name: get number of existing apps in tenant 
     set_fact:
