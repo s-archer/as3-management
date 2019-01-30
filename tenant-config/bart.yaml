@@ -5,3 +5,10 @@ applications:
     name: ai_caramba
     template: http
     vs_ip: 1.1.1.6
+-   members:
+    - 2.2.2.2
+    - 3.3.3.2
+    - 4.4.4.2
+    name: eat_my_shorts
+    template: http
+    vs_ip: 1.1.1.2
