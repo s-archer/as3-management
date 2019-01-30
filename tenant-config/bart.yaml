@@ -1,14 +1,20 @@
 applications:
 -   members:
-    - 6.6.6.8
-    - 7.7.7.9
+    - 1.1.1.11
+    - 1.1.1.12
     name: ai_caramba
     template: http
-    vs_ip: 1.1.1.6
+    vs_ip: 1.1.1.1
 -   members:
-    - 2.2.2.2
-    - 3.3.3.2
-    - 4.4.4.2
+    - 1.1.1.13
+    - 1.1.1.14
     name: eat_my_shorts
     template: http
     vs_ip: 1.1.1.2
+-   members:
+    - 1.1.1.15
+    - 1.1.1.16
+    - 1.1.1.17
+    name: have_a_cow
+    template: http
+    vs_ip: 1.1.1.3
