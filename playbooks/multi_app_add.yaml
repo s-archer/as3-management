@@ -95,8 +95,6 @@
        validate_certs: no
        body: "{{ tenant_body }}"
        body_format: json
-    register: result
-    ignore_errors: True
 
 # After AS3 is successfully deployed, update the source of truth
 
@@ -112,6 +110,10 @@
     shell: git commit -a -m 'update ../tenant-config/{{ tower_tenant }}.yaml'
     register: command_result
     failed_when: "'fail' in command_result.stdout"
+
+  - name: debug output from git commit command
+    debug:
+      msg: "git returned = {{ command_result.stdout }}"
   
   - name: push the update of the local repo to git
     shell: git push  

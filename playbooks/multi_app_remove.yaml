@@ -88,8 +88,6 @@
        validate_certs: no
        body: "{{ tenant_body }}"
        body_format: json
-    register: result
-    ignore_errors: True
 
 # After AS3 is successfully deployed, update the source of truth
 
