@@ -44,18 +44,18 @@
 
   - name: Applications, **BEFORE** checking if it is empty
     debug:
-      msg: "{{ applications[0].app_name }}"
+      msg: "{{ applications }}"
 
 # below is the problem.
 
   - name: check existing tenant vars, and if empty, set to equal the new ones.
     set_fact:
       applications: "{{ format_new_app }}"
-    when: '"{{ applications[0].app_name }}" == ""'
+    when: '"{{ applications }}" == ""'
 
   - name: Applications, **AFTER** checking if it is empty
     debug:
-      msg: "{{ applications[0].app_name }}"
+      msg: "{{ applications }}"
 
   - name: get number of existing apps in tenant 
     set_fact:
@@ -75,9 +75,9 @@
 
 # debug a few variables
 
-  - name: list all vars
-    debug:
-      msg: "{{ vars }}"
+#  - name: list all vars
+#    debug:
+#      msg: "{{ vars }}"
 
   - name: write the number of existing apps for debug
     debug:
