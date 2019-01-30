@@ -105,6 +105,8 @@
   
   - name: commit the update to the local repo 
     shell: git commit -a -m 'update ../tenant-config/{{ tower_tenant }}.yaml'
+    register: command_result
+    failed_when: "'fail' in command_result.stdout"
   
   - name: push the update of the local repo to git
     shell: git push  
