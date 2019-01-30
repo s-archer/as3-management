@@ -15,6 +15,7 @@
         vs_ip:
         bigip:
     # temp vars for local testing only - these will come from tower
+    tower_action: add
     tower_bigip: "local-lab"
     tower_tenant: "homer"
     tower_app_name: duff
@@ -25,11 +26,12 @@
       - 1.1.1.18
       - 1.1.1.19
 
+
   tasks:
 
   - name: format new variables from tower into nested list
     set_fact:
-      format_new_app: [{	"app_name": "{{ tower_app_name }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
+      format_new_app: [{	"app_name": "{{ tower_app_name }}","bigip": "{{ tower_bigip }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
 
   - name: Check for tenant file and create if it doesn't exist
     file:
