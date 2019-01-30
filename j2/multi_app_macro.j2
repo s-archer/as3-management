@@ -1,5 +1,5 @@
 {% macro http_app(app) %}
-    "{{ app.name }}": {
+    "{{ app.app_name }}": {
         "class": "Application",
         "template": "http",
         "serviceMain": {
@@ -7,9 +7,9 @@
             "virtualAddresses": [
                 "{{ app.vs_ip }}"
             ],
-            "pool": "{{ app.name }}_pool"
+            "pool": "{{ app.app_name }}_pool"
         },
-        "{{ app.name }}_pool": {
+        "{{ app.app_name }}_pool": {
             "class": "Pool",
             "monitors": [
                 "http"
@@ -29,7 +29,7 @@
     }
 {% endmacro %}
 {% macro https_app(app) %}
-    "{{ app.name }}": {
+    "{{ app.app_name }}": {
         "class": "Application",
         "template": "https",
         "serviceMain": {
@@ -38,9 +38,9 @@
             "virtualAddresses": [
                 "{{ app.vs_ip }}"
             ],
-            "pool": "{{ app.name }}_pool"
+            "pool": "{{ app.app_name }}_pool"
         },
-        "{{ app.name }}_pool": {
+        "{{ app.app_name }}_pool": {
             "class": "Pool",
             "monitors": [
                 "http"
@@ -61,11 +61,11 @@
             "class": "TLS_Server",
             "certificates": [
                 {
-                    "certificate": "{{ app.name }}_key_pair"
+                    "certificate": "{{ app.app_name }}_key_pair"
                 }
             ]
         },
-        "{{ app.name }}_key_pair": {
+        "{{ app.app_name }}_key_pair": {
             "class": "Certificate",
             "certificate": "{{ app.certificate }}",
             "privateKey": "{{ app.private_key }}"
@@ -89,7 +89,7 @@
         "id": "CR000008",
         "label": "test-label",
         "remark": "test-remark",
-        "{{ tenant }}": {
+        "{{ tower_tenant }}": {
             "class": "Tenant",
             {% for app in new_applications %}
                 {{ render_app(app) }}
