@@ -86,7 +86,7 @@
 
 # Deploy the AS3 declaration to the destination device(s)
 
-  - name: URI POST AS3 to BIG-IP '{{ bigip }}'' tenant '{{ tenant }}'
+  - name: URI POST AS3 to ADD to BIG-IP '{{ bigip }}', tenant '{{ tenant }}'
     uri:
        #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing
@@ -103,17 +103,23 @@
     register: result
     ignore_errors: True
 
-  - name: write new vars
+# After AS3 is successfully deployed, update the source of truth
+
+  - name: write new source of truth variables to the tenant file in local clone of the repo
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{tenant}}.yaml'
 
-  - name: add new tenant to repo
+  - name: add tenant file to local repo (just in case it's new and isn't there already)
     shell: git add '../tenant-config/{{tenant}}.yaml'
   
-  - name: update repo
+  - name: commit the update to the local repo 
     shell: git commit -a -m 'update ../tenant-config/{{tenant}}.yaml'
   
-  - name: update repo
-    shell: git push
+  - name: push the update of the local repo to git
+    shell: git push  
+  
+
+  
+
   
