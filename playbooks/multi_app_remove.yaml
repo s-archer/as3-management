@@ -107,7 +107,10 @@
     shell: git commit -a -m 'update ../tenant-config/{{ tower_tenant }}.yaml'
     register: command_result
     failed_when: "'fail' in command_result.stdout"
-    msg: "git returned = {{ command_result.stdout }}"
+
+  - name: debug output from git push command
+    debug:
+      msg: "git returned = {{ command_result.stdout }}"
   
   - name: push the update of the local repo to git
     shell: git push  
