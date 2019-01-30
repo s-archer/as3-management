@@ -7,19 +7,21 @@
     
   vars:
     uri_method: "POST"
-    # default 'empty' application var to be used when first creating a new tenant
+    # default 'empty' vars to be used when first creating a new tenant
     applications: []
     # temp vars for local testing only - these will come from tower
-    #tower_action: add
-    #tower_bigip: "local-lab"
-    #tower_tenant: "marge"
-    #tower_app_name: mmmmmmm
-    #tower_app_template: http
-    #tower_app_vs_ip: 1.1.4.1
-    #tower_app_members:
-    #  - 1.1.4.11
-    #  - 1.1.4.12
-    #  - 1.1.4.13
+    tower_bigip: "local-lab"
+    tower_tenant: "marge"
+    tower_app_name: ho_homie
+    tower_app_template: http
+    tower_app_vs_ip: 1.1.4.1
+    tower_app_members:
+      - 1.1.4.11
+      - 1.1.4.12
+      - 1.1.4.13
+    tower_cert:
+    tower_key:
+    tower_ca_chain:
 
   tasks:
 
@@ -36,22 +38,10 @@
     include_vars:
       file: '../tenant-config/{{ tower_tenant }}.yaml'
 
-  - name: list all vars after getting existing tenant vars
-    debug:
-      msg: "{{ vars }}"
-
-  - name: write existing 'applications' *** BEFORE *** 
-    debug:
-      msg: "write existing 'applications' {{ applications }} *** BEFORE *** "
-
   - name: check existing tenant vars, and if empty, set to equal the new ones.
     set_fact:
       applications: "{{ format_new_app }}"
     when: '"{{ applications }}" == ""'
-
-  - name: write existing 'applications' *** AFTER *** 
-    debug:
-      msg: "write existing 'applications' {{ applications }} *** AFTER *** "
 
   - name: get number of existing apps in tenant 
     set_fact:
@@ -59,7 +49,7 @@
 
   - name: merge new_app into existing tenant apps
     set_fact:
-      new_applications: '{{ applications | union(format_new_app) }}'
+      new_applications: '{{ applications | difference(format_new_app) }}'
   
   - name: get number of existing + new apps in tenant 
     set_fact:
@@ -71,7 +61,7 @@
 
 # debug all variables and number of existing and new apps.
 
-  - name: list all vars after template render
+  - name: list all vars
     debug:
       msg: "{{ vars }}"
 
@@ -106,16 +96,13 @@
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{ tower_tenant }}.yaml'
-
-  - name: add tenant file to local repo (just in case it's new and isn't there already)
-    shell: git add '../tenant-config/{{ tower_tenant }}.yaml'
   
   - name: commit the update to the local repo 
     shell: git commit -a -m 'update ../tenant-config/{{ tower_tenant }}.yaml'
     register: command_result
     failed_when: "'fail' in command_result.stdout"
 
-  - name: debug output from git commit command
+  - name: debug output from git push command
     debug:
       msg: "git returned = {{ command_result.stdout }}"
   

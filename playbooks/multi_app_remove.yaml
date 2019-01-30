@@ -101,7 +101,7 @@
     register: command_result
     failed_when: "'fail' in command_result.stdout"
 
-  - name: debug output from git push command
+  - name: debug output from git commit command
     debug:
       msg: "git returned = {{ command_result.stdout }}"
   
