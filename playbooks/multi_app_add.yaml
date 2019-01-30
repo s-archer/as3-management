@@ -15,13 +15,13 @@
         vs_ip:
     # temp vars for local testing only - these will come from tower
     tenant: "foo"
-    app_name: app_004
+    app_name: app_005
     app_template: http
-    app_vs_ip: 1.1.1.4
+    app_vs_ip: 1.1.1.5
     app_members:
-      - 2.2.2.4
-      - 3.3.3.4
-      - 4.4.4.4
+      - 2.2.2.5
+      - 3.3.3.5
+      - 4.4.4.5
 
   tasks:
 
@@ -40,7 +40,7 @@
 
   - name: Applications, **BEFORE** checking if it is empty
     debug:
-      msg: "{{ applications }}"
+      msg: "{{ applications[0].name }}"
 
 # below is the problem.
 
@@ -51,7 +51,7 @@
 
   - name: Applications, **AFTER** checking if it is empty
     debug:
-      msg: "{{ applications }}"
+      msg: "{{ applications[0].name }}"
 
   - name: get number of existing apps in tenant 
     set_fact:
