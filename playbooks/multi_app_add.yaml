@@ -17,11 +17,11 @@
     tenant: "foo"
     app_name: app_006
     app_template: http
-    app_vs_ip: 1.1.1.6
+    app_vs_ip: 1.1.1.7
     app_members:
-      - 2.2.2.6
-      - 3.3.3.6
-      - 4.4.4.6
+      - 2.2.2.7
+      - 3.3.3.7
+      - 4.4.4.7
 
   tasks:
 

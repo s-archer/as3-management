@@ -13,3 +13,10 @@ applications:
     name: app_006
     template: http
     vs_ip: 1.1.1.6
+-   members:
+    - 2.2.2.7
+    - 3.3.3.7
+    - 4.4.4.7
+    name: app_006
+    template: http
+    vs_ip: 1.1.1.7
