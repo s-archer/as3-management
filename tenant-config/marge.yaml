@@ -1,9 +1,4 @@
 applications:
--   app_name: null
-    bigip: null
-    members: null
-    template: null
-    vs_ip: null
 -   app_name: ho_homie
     bigip: local-lab
     members:
