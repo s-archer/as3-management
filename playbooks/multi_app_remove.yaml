@@ -13,7 +13,7 @@
     tower_action: add
     tower_bigip: "local-lab"
     tower_tenant: "marge"
-    tower_app_name: ho_homie
+    tower_app_name: mmmmmmm
     tower_app_template: http
     tower_app_vs_ip: 1.1.4.1
     tower_app_members:
