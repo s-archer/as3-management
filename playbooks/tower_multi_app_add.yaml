@@ -87,9 +87,9 @@
 
   - name: URI POST AS3 to ADD to BIG-IP '{{ tower_bigip }}', tenant '{{ tower_tenant }}'
     uri:
-       url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
+       #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing
-       #url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
+       url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
        method: "{{ uri_method }}"
        user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
        password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
