@@ -120,7 +120,7 @@
       msg: "git returned = {{ command_result.stdout }}"
   
   - name: push the update of the local repo to git
-    shell: git push  
+    shell: "git config --global push.default simple" 
   
 
   
