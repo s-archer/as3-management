@@ -21,6 +21,7 @@
       - 1.1.4.12
       - 1.1.4.13
 
+
   tasks:
 
   - name: format new variables from tower into nested list
@@ -36,7 +37,7 @@
     include_vars:
       file: '../tenant-config/{{ tower_tenant }}.yaml'
 
-  - name: list all vars after getting existing tenant vars
+ - name: list all vars after getting existing tenant vars
     debug:
       msg: "{{ vars }}"
 
@@ -59,7 +60,7 @@
 
   - name: merge new_app into existing tenant apps
     set_fact:
-      new_applications: '{{ applications | union(format_new_app) }}'
+      new_applications: '{{ applications | difference(format_new_app) }}'
   
   - name: get number of existing + new apps in tenant 
     set_fact:
@@ -106,8 +107,8 @@
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{ tower_tenant }}.yaml'
-
-  - name: add tenant file to local repo (just in case it's new and isn't there already)
+  
+   - name: add tenant file to local repo (just in case it's new and isn't there already)
     shell: git add '../tenant-config/{{ tower_tenant }}.yaml'
 
   - name: set username for the git commit 
@@ -119,7 +120,7 @@
     debug:
       msg: "git returned = {{ config_command_result }}"
 
-
+ 
   - name: commit the update to the local repo 
     shell: git commit -a -m 'update ../tenant-config/{{ tower_tenant }}.yaml'
     register: commit_command_result
@@ -129,7 +130,6 @@
     debug:
       msg: "git returned = {{ commit_command_result }}"
   
-
 # The command below requires you to add 'Source Control' Credentials to Ansible Tower for git authentication
   - name: push the update of the local repo to git
     shell: "git push"

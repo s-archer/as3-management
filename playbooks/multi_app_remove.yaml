@@ -37,10 +37,22 @@
     include_vars:
       file: '../tenant-config/{{ tower_tenant }}.yaml'
 
+ - name: list all vars after getting existing tenant vars
+    debug:
+      msg: "{{ vars }}"
+
+  - name: write existing 'applications' *** BEFORE *** 
+    debug:
+      msg: "write existing 'applications' {{ applications }} *** BEFORE *** "
+
   - name: check existing tenant vars, and if empty, set to equal the new ones.
     set_fact:
       applications: "{{ format_new_app }}"
     when: '"{{ applications }}" == ""'
+
+  - name: write existing 'applications' *** AFTER *** 
+    debug:
+      msg: "write existing 'applications' {{ applications }} *** AFTER *** "
 
   - name: get number of existing apps in tenant 
     set_fact:
@@ -60,7 +72,7 @@
 
 # debug all variables and number of existing and new apps.
 
-  - name: list all vars
+  - name: list all vars after template render
     debug:
       msg: "{{ vars }}"
 
