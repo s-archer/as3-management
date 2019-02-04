@@ -122,4 +122,7 @@
   - name: push the update of the local repo to git
     shell: "git push"
     register: git_push 
-  - debug: "git push output = {{ git_push }}"
+
+  - name: debug output from git push command
+    debug:
+      msg: "git push output = {{ git_push }}"
