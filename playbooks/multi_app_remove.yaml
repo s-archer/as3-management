@@ -37,7 +37,7 @@
     include_vars:
       file: '../tenant-config/{{ tower_tenant }}.yaml'
 
- - name: list all vars after getting existing tenant vars
+  - name: list all vars after getting existing tenant vars
     debug:
       msg: "{{ vars }}"
 
@@ -96,7 +96,7 @@
        #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
        # temporary for local testing
        user: "admin"
-       password: "admin"
+       password: "Charly8472!!"
        validate_certs: no
        body: "{{ tenant_body }}"
        body_format: json
