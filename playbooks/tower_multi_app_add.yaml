@@ -109,13 +109,12 @@
 
   - name: add tenant file to local repo (just in case it's new and isn't there already)
     shell: git add '../tenant-config/{{ tower_tenant }}.yaml'
-  
 
 
   - name: set username for the git commit 
     shell: git config --global user.ansible@tower.com
     register: config_command_result
-    failed_when: "'fail' in config.command_result.stdout"
+    failed_when: "'fail' in config_command_result.stdout"
 
   - name: debug output from git config command
     debug:
@@ -131,6 +130,7 @@
     debug:
       msg: "git returned = {{ commit_command_result }}"
   
+
   - name: push the update of the local repo to git
     shell: "git push"
     register: git_push 
