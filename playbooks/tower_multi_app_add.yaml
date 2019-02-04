@@ -117,9 +117,9 @@
 
   - name: debug output from git commit command
     debug:
-      msg: "git returned = {{ command_result.stdout }}"
+      msg: "git returned = {{ command_result }}"
   
   - name: push the update of the local repo to git
-    shell: "git config credential.https://github.com/s-archer/as3-management S-Archer; git config --global push.default simple"
+    shell: "git push"
     register: git_push 
-  - debug: var=git_push.stdout_lines 
+  - debug: "git push output = {{ git_push }}"
