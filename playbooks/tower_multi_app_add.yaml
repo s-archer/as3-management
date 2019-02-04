@@ -110,10 +110,8 @@
   - name: add tenant file to local repo (just in case it's new and isn't there already)
     shell: git add '../tenant-config/{{ tower_tenant }}.yaml'
 
-git config --global user.email "my_email@domain.com"
-git config --global user.name "My Name"
   - name: set username for the git commit 
-    shell: git config --global user.email "ansible@tower.com"; git config --global user.name "Ansible Tower"
+    shell: git config user.email ansible@tower.com; git config user.name Ansible_Tower
     register: config_command_result
     failed_when: "'fail' in config_command_result.stdout"
 
