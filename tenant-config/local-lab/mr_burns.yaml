@@ -1,0 +1,9 @@
+applications:
+-   app_name: excellent
+    bigip: local-lab
+    members:
+    - 1.1.7.20
+    - 1.1.7.21
+    - 1.1.7.22
+    template: http
+    vs_ip: 1.1.7.1

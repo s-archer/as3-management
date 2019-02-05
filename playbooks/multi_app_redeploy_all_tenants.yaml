@@ -31,12 +31,12 @@
 
   - name: Check for tenant file and create if it doesn't exist
     file:
-      path: "../tenant-config/{{ tower_tenant }}.yaml"
+      path: "../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml"
       state: touch
 
   - name: get existing tenant vars 
     include_vars:
-      file: '../tenant-config/{{ tower_tenant }}.yaml'
+      file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
   - name: check existing tenant vars, and if empty, set to equal the new ones.
     set_fact:
@@ -95,10 +95,10 @@
   - name: write new source of truth variables to the tenant file in local clone of the repo
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
-      dest: '../tenant-config/{{ tower_tenant }}.yaml'
+      dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
   
   - name: commit the update to the local repo 
-    shell: git commit -a -m 'update ../tenant-config/{{ tower_tenant }}.yaml'
+    shell: git commit -a -m 'update ../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
     register: command_result
     failed_when: "'fail' in command_result.stdout"
 

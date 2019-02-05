@@ -1,0 +1,33 @@
+applications:
+-   app_name: doh
+    bigip: local-lab
+    members:
+    - 1.1.2.11
+    - 1.1.2.12
+    template: http
+    vs_ip: 1.1.2.1
+-   app_name: donut
+    bigip: local-lab
+    members:
+    - 1.1.2.13
+    - 1.1.2.14
+    - 1.1.2.15
+    - 1.1.2.16
+    template: http
+    vs_ip: 1.1.2.2
+-   app_name: duff
+    bigip: local-lab
+    members:
+    - 1.1.2.17
+    - 1.1.2.18
+    - 1.1.2.19
+    template: http
+    vs_ip: 1.1.2.3
+-   app_name: doh
+    bigip: local-lab
+    members:
+    - 1.1.2.20
+    - 1.1.2.21
+    - 1.1.2.22
+    template: http
+    vs_ip: 1.1.1.1

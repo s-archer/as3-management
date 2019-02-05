@@ -30,12 +30,12 @@
 
   - name: Check for tenant file and create if it doesn't exist
     file:
-      path: "../tenant-config/{{ tower_tenant }}.yaml"
+      path: "../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml"
       state: touch
 
   - name: get existing tenant vars 
     include_vars:
-      file: '../tenant-config/{{ tower_tenant }}.yaml'
+      file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
  - name: list all vars after getting existing tenant vars
     debug:
@@ -106,10 +106,10 @@
   - name: write new source of truth variables to the tenant file in local clone of the repo
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
-      dest: '../tenant-config/{{ tower_tenant }}.yaml'
+      dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
   
    - name: add tenant file to local repo (just in case it's new and isn't there already)
-    shell: git add '../tenant-config/{{ tower_tenant }}.yaml'
+    shell: git add '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
   - name: set username for the git commit 
     shell: git config user.email ansible@tower.com; git config user.name Ansible_Tower
@@ -122,7 +122,7 @@
 
  
   - name: commit the update to the local repo 
-    shell: git commit -a -m 'update ../tenant-config/{{ tower_tenant }}.yaml'
+    shell: git commit -a -m 'update ../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
     register: commit_command_result
     failed_when: "'fail' in commit_command_result.stdout"
 
