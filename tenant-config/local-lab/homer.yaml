@@ -23,11 +23,3 @@ applications:
     - 1.1.2.19
     template: http
     vs_ip: 1.1.2.3
--   app_name: doh
-    bigip: local-lab
-    members:
-    - 1.1.2.20
-    - 1.1.2.21
-    - 1.1.2.22
-    template: http
-    vs_ip: 1.1.1.1
