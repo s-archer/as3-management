@@ -1,9 +1,9 @@
 planets:
--   app_name: saturn
+-   app_name: mercury
     bigip: local-lab
     members:
     - 1.1.6.20
     - 1.1.6.21
     - 1.1.6.22
     template: http
-    vs_ip: 1.1.3.6
+    vs_ip: 1.1.3.7
