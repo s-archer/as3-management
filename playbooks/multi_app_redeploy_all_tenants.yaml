@@ -15,34 +15,38 @@
 
   tasks:
 
-  - name: render template
-    
-
     # first ensure our target directory exists
   - name: Ensure target directory exists
     file:
       dest: '../tenant-config/{{ tower_bigip }}'
       state: directory
 
-  # copy each file over that matches the given pattern
-  - name: Copy each file over that matches the given pattern
-    set_fact:
-      tower_tenant: "{{ item }}"
-      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
-    uri:
-      #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
-      # temporary for local testing
-      url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
-      method: "{{ uri_method }}"
-      #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
-      #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
-      # temporary for local testing
-      user: "admin"
-      password: "admin"
-      validate_certs: no
-      body: "{{ tenant_body }}"
-      body_format: json
-      src: "{{ item }}"
+  - set_fact:
+      tenants: []
+      declaration: []
 
+  # copy each file over that matches the given pattern
+  - set_fact:
+      include_vars:
+      #  file: '../tenant-config/{{ tower_bigip }}/{{ item | basename }}'
+        dir: '../tenant-config/{{ tower_bigip }}/'
+        extensions: [yaml]
+      tenants: "{{ tenants }} +  [ '{{ (item | basename | splitext)[0] }}' ]"
     with_fileglob:
-      - "/playbooks/files/fooapp/*"
+      - "../tenant-config/{{ tower_bigip }}/*"
+  - debug:
+      var: applications
+
+
+  - set_fact: 
+      tenant_list: "{{ tenants | to_json }}"
+  - debug:
+      msg: "tenants are: {{ tenant_list }} "    
+
+  - name: render template
+    set_fact:
+      tenant_body: "{{ lookup('template', '../j2/multi_app_all_tenants_macro.j2', split_lines=False) }}"
+
+  - debug:
+      msg: "tenants declaration: {{ tenant_body }} "  
+    
