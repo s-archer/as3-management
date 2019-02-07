@@ -1,4 +1,4 @@
-applications:
+krusty:
 -   app_name: hey_hey_hey
     bigip: local-lab
     members:

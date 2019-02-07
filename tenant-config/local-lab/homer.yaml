@@ -1,4 +1,4 @@
-applications:
+homer:
 -   app_name: doh
     bigip: local-lab
     members:

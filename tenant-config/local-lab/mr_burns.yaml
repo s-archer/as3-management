@@ -1,4 +1,4 @@
-applications:
+mr_burns:
 -   app_name: excellent
     bigip: local-lab
     members:
