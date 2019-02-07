@@ -1,4 +1,4 @@
-'{{ tower_tenant }}':
+barney:
 -   app_name: buuurrrrp
     bigip: local-lab
     members:
