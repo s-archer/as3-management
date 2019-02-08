@@ -35,6 +35,7 @@
   - name: get existing tenant vars 
     include_vars:
       file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
+      name: test_tenant
 
   - name: list all vars after getting existing tenant vars
     debug:
@@ -42,7 +43,7 @@
 
   - name: write existing 'applications' *** BEFORE *** 
     debug:
-      msg: "write existing 'applications' {{ applications }} *** BEFORE *** "
+      msg: "write existing 'applications' {{ test_tenant }} *** BEFORE *** "
 
   - name: check existing tenant vars, and if empty, set to equal the new ones.
     set_fact:
