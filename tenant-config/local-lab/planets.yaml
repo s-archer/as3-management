@@ -1,4 +1,4 @@
-applications:
+planets:
 -   app_name: earth
     bigip: local-lab
     members:
@@ -7,11 +7,3 @@ applications:
     - 1.1.3.13
     template: http
     vs_ip: 1.1.3.1
--   app_name: mars
-    bigip: local-lab
-    members:
-    - 1.1.3.21
-    - 1.1.3.22
-    - 1.1.3.23
-    template: http
-    vs_ip: 1.1.3.2
