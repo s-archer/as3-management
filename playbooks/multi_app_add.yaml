@@ -12,14 +12,14 @@
     # temp vars for local testing only - these will come from tower
     tower_action: add
     tower_bigip: "local-lab"
-    tower_tenant: "simpsons"
-    tower_app_name: marge
+    tower_tenant: "planets"
+    tower_app_name: earth
     tower_app_template: http
-    tower_app_vs_ip: 1.1.2.2
+    tower_app_vs_ip: 1.1.3.1
     tower_app_members:
-      - 1.1.2.21
-      - 1.1.2.22
-      - 1.1.2.23
+      - 1.1.3.11
+      - 1.1.3.12
+      - 1.1.3.13
 
   tasks:
 
