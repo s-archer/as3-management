@@ -1,4 +1,4 @@
-muppets:
+applications:
 -   app_name: fozzy
     bigip: local-lab
     members:
