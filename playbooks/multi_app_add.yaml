@@ -1,6 +1,6 @@
 ---
 - name: Append new app to tenant
-  # Develop version
+  # Master version
   #  hosts: bigip     # this refers to inventory on tower
   hosts: localhost    
   gather_facts: false
