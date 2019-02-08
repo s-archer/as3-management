@@ -1,6 +1,5 @@
 ---
 - name: Append new app to tenant
-  # test
   #  hosts: bigip     # this refers to inventory on tower
   hosts: localhost    # this refers to inventory on tower
   gather_facts: false
