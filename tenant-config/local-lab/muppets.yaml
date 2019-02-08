@@ -1,1 +1,9 @@
-muppets: []
+applications:
+-   app_name: kermit
+    bigip: local-lab
+    members:
+    - 1.1.1.11
+    - 1.1.1.12
+    - 1.1.1.13
+    template: http
+    vs_ip: 1.1.1.1
