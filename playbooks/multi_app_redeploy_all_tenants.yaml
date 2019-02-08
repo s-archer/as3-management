@@ -27,21 +27,31 @@
 
   # copy each file over that matches the given pattern
   - set_fact:
-      include_vars:
-      #  file: '../tenant-config/{{ tower_bigip }}/{{ item | basename }}'
-        dir: '../tenant-config/{{ tower_bigip }}/'
-        extensions: [yaml]
       tenants: "{{ tenants }} +  [ '{{ (item | basename | splitext)[0] }}' ]"
     with_fileglob:
       - "../tenant-config/{{ tower_bigip }}/*"
-  - debug:
-      var: applications
 
+  - name: Include all .yaml files in the tenant-config/<big-ip> directory
+    include_vars:
+      dir: '../tenant-config/{{ tower_bigip }}'
+      extensions: [yaml]
+
+  - debug:
+      var: tenants
+
+  - debug:
+      var: barney
 
   - set_fact: 
       tenant_list: "{{ tenants | to_json }}"
+
   - debug:
       msg: "tenants are: {{ tenant_list }} "    
+
+  - set_fact: 
+      declaration: "{{ tenants | to_json }}"
+    with_items: {{tenant_list}}
+
 
   - name: render template
     set_fact:

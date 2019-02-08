@@ -105,7 +105,7 @@
 
   - name: write new source of truth variables to the tenant file in local clone of the repo
     copy:
-      content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
+      content: "{{ { tower_tenant: new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
   
    - name: add tenant file to local repo (just in case it's new and isn't there already)
