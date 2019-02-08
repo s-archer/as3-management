@@ -1,12 +1,4 @@
-applications:
--   app_name: fozzy
-    bigip: local-lab
-    members:
-    - 1.1.1.21
-    - 1.1.1.22
-    - 1.1.1.23
-    template: http
-    vs_ip: 1.1.1.2
+muppets:
 -   app_name: kermit
     bigip: local-lab
     members:
