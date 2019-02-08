@@ -1,5 +1,6 @@
 ---
 - name: Append new app to tenant
+  # test
   #  hosts: bigip     # this refers to inventory on tower
   hosts: localhost    # this refers to inventory on tower
   gather_facts: false
@@ -25,6 +26,7 @@
 
   - name: format new variables from tower into nested list
     set_fact:
+
       format_new_app: [{	"app_name": "{{ tower_app_name }}","bigip": "{{ tower_bigip }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
 
   - name: Check for tenant file and create if it doesn't exist
