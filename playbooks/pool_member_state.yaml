@@ -1,0 +1,71 @@
+---
+- name: Append new app to tenant
+  #  hosts: bigip     # this refers to inventory on tower
+  hosts: localhost    # this refers to inventory on tower
+  gather_facts: false
+  connection: local
+    
+  vars:
+    uri_method: "GET"
+    # default 'empty' vars to be used when first creating a new tenant
+    applications: []
+    # temp vars for local testing only - these will come from tower
+    tower_action: remove
+    tower_bigip: "local-lab"
+    tower_tenant: "planets"
+    tower_app_name: mars
+    tower_app_template: http
+    tower_app_vs_ip: 1.1.3.2
+    tower_app_members:
+      - 1.1.3.21
+      - 1.1.3.22
+      - 1.1.3.23
+    existing_members: = {{ result.json.planets.mars.mars_pool.members | wantlist=True }}"
+    existing_members_list: = {{ result.json.planets.mars.mars_pool.members | items2dict }}"
+  tasks:
+
+ 
+
+# Deploy the AS3 declaration to get state of all tenants
+
+  - name: URI POST AS3 to ADD to BIG-IP '{{ tower_bigip }}', tenant '{{ tower_tenant }}'
+    uri:
+       #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
+       # temporary for local testing
+       url: "https://10.1.1.245/mgmt/shared/appsvcs/declare/{{ tower_tenant }}"
+       method: "{{ uri_method }}"
+       #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+       #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
+       # temporary for local testing
+       user: "admin"
+       password: "admin"
+       validate_certs: no
+       #body: "{{ tenant_body }}"
+       body_format: json
+       return_content: yes
+    register: as3_response
+
+# display all vars
+
+  - name: debug response from REST
+    debug:
+      msg: "All Vars from {{ [tower_tenant] }} = {{ as3_response.json | to_yaml }}"
+  
+  #- name: debug refined output from REST
+  #  debug: msg="{{item}}"
+  #  loop: "{{ existing_members | from_json | list }}"
+    
+
+  - name: with_subelements -> loop
+    debug:
+      msg: "{{ item }} - {{ item.0 }} - {{ item[1] }}"
+    loop: "{{ as3_response.json| list }}"
+
+  - name: with_dict -> loop (option 2)
+    debug:
+      msg: "{{ item.0 }} - {{ item.1 }}"
+    loop: "{{ as3_response.json|dictsort }}"
+
+  - name: debug response from REST
+    debug:
+      msg: "All Vars from {{ [tower_tenant] }} = {{ as3_response.json.{{tower_tenant}}.mars.mars_pool.members }}"
