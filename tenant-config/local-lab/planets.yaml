@@ -1,12 +1,4 @@
-applications:
--   app_name: jupiter
-    bigip: local-lab
-    members:
-    - 1.1.3.31
-    - 1.1.3.32
-    - 1.1.3.33
-    template: http
-    vs_ip: 1.1.3.3
+planets:
 -   app_name: mars
     bigip: local-lab
     members:
