@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 applications:
 -   app_name: mars
     bigip: local-lab
@@ -7,3 +8,14 @@ applications:
     - 1.1.3.43
     template: http
     vs_ip: 1.1.3.4
+=======
+planets:
+-   app_name: mercury
+    bigip: local-lab
+    members:
+    - 1.1.6.20
+    - 1.1.6.21
+    - 1.1.6.22
+    template: http
+    vs_ip: 1.1.3.7
+>>>>>>> d27ea66c7ae09f704d55e88d547cd851c49661ce
