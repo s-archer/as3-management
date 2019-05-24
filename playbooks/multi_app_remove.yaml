@@ -13,13 +13,14 @@
     tower_action: remove
     tower_bigip: "local-lab"
     tower_tenant: "planets"
-    tower_app_name: mars
+    tower_app_name: "my_app"
     tower_app_template: http
-    tower_app_vs_ip: 1.1.3.4
+    tower_app_vs_ip: 1.1.1.100
     tower_app_members:
-      - 1.1.3.41
-      - 1.1.3.42
-      - 1.1.3.43
+      - 1.1.2.20
+      - 1.1.2.21
+      - 1.1.2.26
+      - 2.23.2.2
 
   vars_files:
     - ../../creds/big_creds.yaml
