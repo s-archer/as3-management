@@ -93,8 +93,8 @@
     uri:
        #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing
-       #url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
-       url: "https://18.197.139.41/mgmt/shared/appsvcs/declare"
+       url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
+       #url: "https://18.197.139.41/mgmt/shared/appsvcs/declare"
        method: "{{ uri_method }}"
        #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
        #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
