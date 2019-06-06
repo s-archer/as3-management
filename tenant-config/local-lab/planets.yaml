@@ -1,1 +1,9 @@
-planets: []
+planets:
+-   app_name: uranus
+    bigip: local-lab
+    members:
+    - 1.1.3.20
+    - 1.1.3.21
+    - 1.1.3.22
+    template: http
+    vs_ip: 1.1.3.2
