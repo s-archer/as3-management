@@ -1,0 +1,36 @@
+---
+- name: DEPLOY AS3 DECLARATION
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars_files:
+    - ../../creds/big_creds.yaml
+    - ../tenant-config/tenant.yaml
+
+  vars:
+    uri_method: POST
+    tenant: "tenant"
+
+  tasks:
+
+    - name: RENDER JINJA TEMPLATE
+      set_fact:
+        tenant_body: "{{ lookup('template', '../j2/as3_template.j2', split_lines=False) }}"
+
+    - name: OUTPUT RENDERED AS3
+      debug:
+        msg: "{{ tenant_body }}"
+
+#    - name: REST CALL TO BIG-IP
+#      uri:
+#        url: https://18.220.128.189/mgmt/shared/appsvcs/declare
+#        method: "{{ uri_method }}"
+#        password: "{{ bigip_pass }}"
+#        user: "{{ bigip_user }}"
+#        body: "{{ tenant_body }}"
+#        force_basic_auth: yes
+#        status_code: 200
+#        body_format: json
+#        validate_certs: no
+...
