@@ -1,5 +1,5 @@
 ---
-- name: Append new app to tenant
+- name: APPEND NEW APPS TO TENANT
   # Master version
   #  hosts: bigip     # this refers to inventory on tower
   hosts: localhost    
@@ -26,70 +26,62 @@
     
   tasks:
 
-  - name: format new variables from tower into nested list
+  - name: FORMAT USER INOUT VARIABLES INTO NESTED LIST
     set_fact:
-
       format_new_app: [{	"app_name": "{{ tower_app_name }}","bigip": "{{ tower_bigip }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
 
-  - name: Check for tenant file and create if it doesn't exist
+
+  - name: IF NOT EXIST, TOUCH TENANT CONFIG FILE  
     file:
       path: "../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml"
       state: touch
 
-  - name: get existing tenant vars 
+
+  - name: GET APPLICATION VARS FROM TENANT CONFIG FILE 
     include_vars:
       file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
-  - name: list all vars after getting existing tenant vars
-    debug:
-      msg: "{{ vars }}"
 
-  - name: write existing 'applications' *** BEFORE *** 
+  - name: DEBUG - APPLICATION VAR *** BEFORE *** 
     debug:
       msg: "write existing 'applications' {{ applications }} *** BEFORE *** "
 
-  - name: check existing tenant vars, and if empty, set to equal the new ones.
+
+  - name: IF APPLICATION VAR EMPTY, ADD NEW APP TO VAR
     set_fact:
       applications: "{{ format_new_app }}"
     when: '"{{ applications }}" == ""'
 
-  - name: write existing 'applications' *** AFTER *** 
+
+  - name: DEBUG - APPLICATION VAR *** AFTER *** 
     debug:
       msg: "write existing 'applications' {{ applications }} *** AFTER *** "
 
-  - name: get number of existing apps in tenant 
+
+  - name: COUNT APPS IN ORIGIN APPLICATION VAR 
     set_fact:
       existing_apps_length: "{{ applications|length }}"
 
-  - name: merge new_app into existing tenant apps
+
+  - name: ADD (UNION) NEW APP TO APPLICATIONS VAR
     set_fact:
       new_applications: '{{ applications | union(format_new_app) }}'
   
-  - name: get number of existing + new apps in tenant 
+  - name: COUNT APPS IN UPDATED APPLICATION VAR
     set_fact:
       new_apps_length: "{{ new_applications|length }}"
 
-  - name: render template
+  - name: RENDER TEMPLATE
     set_fact:
       tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
 
-# debug all variables and number of existing and new apps.
 
-  - name: list all vars after template render
+  - name: DEBUG - TENANT BODY (AS3)
     debug:
-      msg: "{{ vars }}"
+      msg: "{{ tenant_body }}"
 
-  - name: write the number of existing apps for debug
-    debug:
-      msg: "number of existing apps = {{ existing_apps_length }}"
 
-  - name: write the number of existing + new apps for debug
-    debug:
-      msg: "number of existing + new apps = {{ new_apps_length }}"
-
-# Deploy the AS3 declaration to the destination device(s)
-
-  - name: URI POST AS3 to ADD to BIG-IP '{{ tower_bigip }}', tenant '{{ tower_tenant }}'
+  - name: URI POST AS3 TO BIG-IP '{{ tower_bigip }}', TENANT '{{ tower_tenant }}'
     uri:
        #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing
@@ -107,24 +99,28 @@
 
 # After AS3 is successfully deployed, update the source of truth
 
-  - name: write new source of truth variables to the tenant file in local clone of the repo
+  - name: WRITE NEW SOURCE OF TRUTH TO LOCAL FILE
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
-  - name: add tenant file to local repo (just in case it's new and isn't there already)
+
+  - name: GIT ADD TENANT FILE TO LOCAL REPO
     shell: git add '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
   
-  - name: commit the update to the local repo 
+
+  - name: GIT COMMIT  
     shell: git commit -a -m 'update ../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
     register: command_result
     failed_when: "'fail' in command_result.stdout"
 
-  - name: debug output from git commit command
+
+  - name: DEBUG GIT OUTPUT
     debug:
       msg: "git returned = {{ command_result.stdout }}"
   
-  - name: push the update of the local repo to git
+
+  - name: GIT PUSH
     shell: git push  
   
 
