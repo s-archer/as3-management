@@ -9,22 +9,12 @@
   vars:
     uri_method: "POST"
     # default 'empty' vars to be used when first creating a new tenant
-    applications: []
-    # temp vars for local testing only - these will come from tower
-    tower_action: remove
-    tower_bigip: "local-lab"
-    tower_tenant: "planets"
-    tower_app_name: mars
-    tower_app_template: http
-    tower_app_vs_ip: 1.1.3.4
-    tower_app_members:
-      - 1.1.3.41
-      - 1.1.3.42
-      - 1.1.3.43
+
 
 
   vars_files:
     - ../../creds/big_creds.yaml
+    - ../vars/tower_vars.yaml
 
 
   tasks:
