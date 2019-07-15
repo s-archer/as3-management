@@ -123,6 +123,11 @@
       content: "{{ { tower_tenant: new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
   
+
+  - name: DEBUG - APPLICATION VAR 5 *** NEW SOURCE OF TRUTH *** 
+    debug:
+      msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** TENANT NEW *** "
+
   
   - name: GIT COMMIT 
     shell: git commit -a -m 'update ../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
