@@ -63,7 +63,7 @@
 
   - name: DEBUG - APPLICATION VAR *** TENANT NEW *** 
     debug:
-      msg: "{{ new_apps_length }} total 'applications' {{ applications }} *** TENANT NEW *** "
+      msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** TENANT NEW *** "
     when: applications is defined
 
 
