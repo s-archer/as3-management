@@ -46,21 +46,10 @@
       file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
 
-  - name: DEBUG - APPLICATION VAR *** BEFORE *** 
-    debug:
-      msg: "write existing 'applications' {{ applications }} *** BEFORE *** "
-    when: applications is defined
-
-
   - name: IF APPLICATION VAR EMPTY, ADD NEW APP TO VAR
     set_fact:
       applications: "{{ format_new_app }}"
     when: applications is not defined
-
-
-  - name: DEBUG - APPLICATION VAR *** AFTER *** 
-    debug:
-      msg: "write existing 'applications' {{ applications }} *** AFTER *** "
 
 
   - name: COUNT APPS IN ORIGIN APPLICATION VAR 
@@ -68,13 +57,27 @@
       existing_apps_length: "{{ applications|length }}"
 
 
+  - name: DEBUG - APPLICATION VAR *** TENANT EXISTING *** 
+    debug:
+      msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** BEFORE *** "
+    when: applications is defined
+
+
   - name: ADD (UNION) NEW APP TO APPLICATIONS VAR
     set_fact:
       new_applications: '{{ applications | union(format_new_app) }}'
   
+
   - name: COUNT APPS IN UPDATED APPLICATION VAR
     set_fact:
       new_apps_length: "{{ new_applications|length }}"
+
+
+  - name: DEBUG - APPLICATION VAR *** AFTER *** 
+    debug:
+      msg: "{{ new_apps_length }} total 'applications' {{ applications }} *** AFTER *** "
+    when: applications is defined
+
 
   - name: RENDER TEMPLATE
     set_fact:
