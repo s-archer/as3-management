@@ -44,7 +44,7 @@
       file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
 
-  - name: DEBUG - APPLICATION VAR 
+  - name: DEBUG - APPLICATION VAR 1
     debug:
       msg: "Existing 'applications' {{ applications }} *** FROM FILE *** "
     when: applications is defined
@@ -56,18 +56,18 @@
     when: applications is not defined
 
 
-  - name: DEBUG - APPLICATION VAR 
+  - name: DEBUG - APPLICATION VAR 2
     debug:
       msg: "Existing 'applications' {{ applications }} *** IF FILE EMPTY, ADD *** "
     when: applications is defined
-    
+
 
   - name: COUNT APPS IN ORIGIN APPLICATION VAR 
     set_fact:
       existing_apps_length: "{{ applications|length }}"
 
 
-  - name: DEBUG - APPLICATION VAR *** TENANT EXISTING *** 
+  - name: DEBUG - APPLICATION VAR 3 *** TENANT EXISTING *** 
     debug:
       msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** TENANT EXISTING *** "
     when: applications is defined
@@ -83,7 +83,7 @@
       new_apps_length: "{{ new_applications|length }}"
 
 
-  - name: DEBUG - APPLICATION VAR *** TENANT NEW *** 
+  - name: DEBUG - APPLICATION VAR 4 *** TENANT NEW *** 
     debug:
       msg: "{{ new_apps_length }} total 'applications' {{ applications }} *** TENANT NEW *** "
     when: applications is defined
