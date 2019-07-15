@@ -57,7 +57,7 @@
 
   - name: DEBUG - APPLICATION VAR *** TENANT EXISTING *** 
     debug:
-      msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** BEFORE *** "
+      msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** TENANT EXISTING *** "
     when: applications is defined
 
 
@@ -71,9 +71,9 @@
       new_apps_length: "{{ new_applications|length }}"
 
 
-  - name: DEBUG - APPLICATION VAR *** AFTER *** 
+  - name: DEBUG - APPLICATION VAR *** TENANT NEW *** 
     debug:
-      msg: "{{ new_apps_length }} total 'applications' {{ applications }} *** AFTER *** "
+      msg: "{{ new_apps_length }} total 'applications' {{ applications }} *** TENANT NEW *** "
     when: applications is defined
 
 
