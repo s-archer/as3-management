@@ -10,7 +10,7 @@
   vars:
     uri_method: "POST"
     # default 'empty' application var to be used when first creating a new tenant
-    applications: []
+    #applications: []
     # temp vars for local testing only - these will come from tower
     tower_action: add
     tower_bigip: "local-lab"
@@ -54,7 +54,7 @@
   - name: IF APPLICATION VAR EMPTY, ADD NEW APP TO VAR
     set_fact:
       applications: "{{ format_new_app }}"
-    when: "{{ applications }} == ''"
+    when: applications is not defined
 
 
   - name: DEBUG - APPLICATION VAR *** AFTER *** 
