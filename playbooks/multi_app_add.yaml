@@ -123,6 +123,11 @@
       dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
 
+  - name: DEBUG - APPLICATION VAR 5 *** NEW SOURCE OF TRUTH *** 
+    debug:
+      msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** TENANT NEW *** "
+
+
   - name: GIT ADD TENANT FILE TO LOCAL REPO
     shell: git add '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
   
