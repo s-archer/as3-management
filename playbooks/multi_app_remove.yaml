@@ -14,7 +14,7 @@
     tower_action: remove
     tower_bigip: "local-lab"
     tower_tenant: "planets"
-    tower_app_name: uranus
+    tower_app_name: mars
     tower_app_template: http
     tower_app_vs_ip: 1.1.3.4
     tower_app_members:
@@ -93,7 +93,7 @@
       msg: "new_applications: {{ new_applications }} *** DEBUG CALC *** "
     when: applications is defined
 
-    
+
   - name: COUNT APPS IN UPDATED APPLICATION VAR 
     set_fact:
       new_apps_length: "{{ new_applications|length }}"
