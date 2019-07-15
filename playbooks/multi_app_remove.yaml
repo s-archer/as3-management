@@ -120,7 +120,7 @@
 
   - name: WRITE NEW SOURCE OF TRUTH TO LOCAL FILE
     copy:
-      content: "{{ { applications: new_applications } | to_nice_yaml() }}"
+      content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
   
 
