@@ -1,4 +1,4 @@
-applications:
+planets:
 -   app_name: mars
     bigip: local-lab
     members:
