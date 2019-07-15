@@ -36,22 +36,10 @@
       file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
 
-  - name: DEBUG - APPLICATION VAR 1
-    debug:
-      msg: "Existing 'applications' {{ applications }} *** FROM FILE *** "
-    when: applications is defined
-
-
   - name: IF APPLICATION VAR EMPTY, ADD NEW APP TO VAR
     set_fact:
       applications: "{{ format_new_app }}"
     when: applications is not defined
-
-
-  - name: DEBUG - APPLICATION VAR 2
-    debug:
-      msg: "Existing 'applications' {{ applications }} *** IF FILE EMPTY, ADD *** "
-    when: applications is defined
 
 
   - name: COUNT APPS IN ORIGIN APPLICATION VAR 
@@ -59,7 +47,7 @@
       existing_apps_length: "{{ applications|length }}"
 
 
-  - name: DEBUG - APPLICATION VAR 3 *** TENANT EXISTING *** 
+  - name: DEBUG - APPLICATION VAR *** TENANT EXISTING *** 
     debug:
       msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** TENANT EXISTING *** "
     when: applications is defined
@@ -70,26 +58,12 @@
       new_applications: '{{ applications | difference(format_new_app) }}'
   
 
-  - name: DEBUG - APPLICATION VAR 3 *** DEBUG CALC *** 
-    debug:
-      msg: "var applications: {{ applications }} *** DEBUG CALC *** "
-    when: applications is defined
-  - name: DEBUG - APPLICATION VAR 3 *** DEBUG CALC *** 
-    debug:
-      msg: "var format_new_app: {{ format_new_app }} *** DEBUG CALC *** "
-    when: applications is defined
-  - name: DEBUG - APPLICATION VAR 3 *** DEBUG CALC *** 
-    debug:
-      msg: "new_applications: {{ new_applications }} *** DEBUG CALC *** "
-    when: applications is defined
-
-
   - name: COUNT APPS IN UPDATED APPLICATION VAR 
     set_fact:
       new_apps_length: "{{ new_applications|length }}"
 
 
-  - name: DEBUG - APPLICATION VAR 4 *** TENANT NEW *** 
+  - name: DEBUG - APPLICATION VAR *** TENANT NEW *** 
     debug:
       msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** TENANT NEW *** "
 
@@ -126,11 +100,6 @@
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
-  
-
-  - name: DEBUG - APPLICATION VAR 5 *** NEW SOURCE OF TRUTH *** 
-    debug:
-      msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** TENANT NEW *** "
 
   
   - name: GIT COMMIT 
