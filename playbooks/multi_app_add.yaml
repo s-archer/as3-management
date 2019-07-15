@@ -78,6 +78,20 @@
       new_applications: '{{ applications | union(format_new_app) }}'
   
 
+  - name: DEBUG - APPLICATION VAR 3 *** DEBUG CALC *** 
+    debug:
+      msg: "var applications: {{ applications }} *** DEBUG CALC *** "
+    when: applications is defined
+  - name: DEBUG - APPLICATION VAR 3 *** DEBUG CALC *** 
+    debug:
+      msg: "var format_new_app: {{ format_new_app }} *** DEBUG CALC *** "
+    when: applications is defined
+  - name: DEBUG - APPLICATION VAR 3 *** DEBUG CALC *** 
+    debug:
+      msg: "new_applications: {{ new_applications }} *** DEBUG CALC *** "
+    when: applications is defined
+
+
   - name: COUNT APPS IN UPDATED APPLICATION VAR
     set_fact:
       new_apps_length: "{{ new_applications|length }}"
