@@ -59,7 +59,7 @@
 
   - name: DEBUG - APPLICATION VAR *** TENANT EXISTING *** 
     debug:
-      msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** BEFORE *** "
+      msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** TENANT EXISTING *** "
     when: applications is defined
 
 
@@ -75,7 +75,7 @@
 
   - name: DEBUG - APPLICATION VAR *** TENANT NEW *** 
     debug:
-      msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** AFTER *** "
+      msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** TENANT NEW *** "
 
 
   - name: RENDER TEMPLATE
