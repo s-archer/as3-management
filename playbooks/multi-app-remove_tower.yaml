@@ -87,16 +87,35 @@
       dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
   
-  - name: GIT COMMIT 
+  - name: SET USERNAME FOR GIT COMMIT 
+    shell: git config user.email ansible@tower.com; git config user.name Ansible_Tower
+    register: config_command_result
+    failed_when: "'fail' in config_command_result.stdout"
+
+
+  - name: OUTPUT GIT CONFIG COMMAND RESULT
+    debug:
+      msg: "git returned = {{ config_command_result }}"
+
+
+  - name: GIT COMMIT  
     shell: git commit -a -m 'update ../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
     register: command_result
     failed_when: "'fail' in command_result.stdout"
 
 
-  - name: DEBUG GIT OUTPUT
+  - name: DEBUG GIT COMMIT OUTPUT
     debug:
       msg: "git returned = {{ command_result.stdout }}"
   
 
+# The command below requires you to add 'Source Control' Credentials to Ansible Tower for git authentication
   - name: GIT PUSH
-    shell: git push
+    shell: "git push"
+    register: git_push 
+
+
+# Beware: this will output your Source Control creds as part of the git URL https://user:password@github.com/<repo>
+#  - name: OUTPUT GIT PUSH RESULT
+#    debug:
+#      msg: "git push output = {{ git_push }}"
