@@ -77,8 +77,8 @@
        #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
        #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
        # temporary for local testing
-       user: "{{bigip_user_easy}}"
-       password: "{{bigip_pass_easy}}"
+       user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+       password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
        validate_certs: no
        body: "{{ tenant_body }}"
        body_format: json
