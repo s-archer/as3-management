@@ -1,10 +1,10 @@
 ---
-- name: APPEND NEW APPS TO TENANT
-  #  hosts: bigip     # this refers to inventory on tower
-  hosts: localhost    
+- name: REMOVE APP FROM TENANT
+  #hosts: bigip     # this refers to inventory on tower
+  hosts: localhost    # this refers to inventory on tower
   gather_facts: false
   connection: local
-  
+
 
   tasks:
 
@@ -13,13 +13,13 @@
       format_new_app: [{	"app_name": "{{ tower_app_name }}","bigip": "{{ tower_bigip }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
 
 
-  - name: IF NOT EXIST, TOUCH TENANT CONFIG FILE  
+  - name: IF NOT EXIST, TOUCH TENANT CONFIG FILE
     file:
       path: "../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml"
       state: touch
 
 
-  - name: GET APPLICATION VARS FROM TENANT CONFIG FILE 
+  - name: GET APPLICATION VARS FROM TENANT CONFIG FILE
     include_vars:
       file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
@@ -41,12 +41,12 @@
     when: applications is defined
 
 
-  - name: ADD (UNION) NEW APP TO APPLICATIONS VAR
+  - name: DELETE (DIFFERENCE) NEW APP TO APPLICATIONS VAR
     set_fact:
-      new_applications: '{{ applications | union(format_new_app) }}'
+      new_applications: '{{ applications | difference(format_new_app) }}'
+  
 
-
-  - name: COUNT APPS IN UPDATED APPLICATION VAR
+  - name: COUNT APPS IN UPDATED APPLICATION VAR 
     set_fact:
       new_apps_length: "{{ new_applications|length }}"
 
@@ -54,7 +54,6 @@
   - name: DEBUG - APPLICATION VAR *** TENANT NEW *** 
     debug:
       msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** TENANT NEW *** "
-    when: applications is defined
 
 
   - name: RENDER TEMPLATE
@@ -87,44 +86,17 @@
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
       dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
 
-
-  - name: GIT ADD TENANT FILE TO LOCAL REPO
-    shell: git add '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
-
-
-  - name: SET USERNAME FOR GIT COMMIT 
-    shell: git config user.email ansible@tower.com; git config user.name Ansible_Tower
-    register: config_command_result
-    failed_when: "'fail' in config_command_result.stdout"
-
-
-  - name: OUTPUT GIT CONFIG COMMAND RESULT
-    debug:
-      msg: "git returned = {{ config_command_result }}"
-
-
-  - name: GIT COMMIT  
+  
+  - name: GIT COMMIT 
     shell: git commit -a -m 'update ../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
     register: command_result
     failed_when: "'fail' in command_result.stdout"
 
 
-  - name: DEBUG GIT COMMIT OUTPUT
+  - name: DEBUG GIT OUTPUT
     debug:
       msg: "git returned = {{ command_result.stdout }}"
   
 
-# The command below requires you to add 'Source Control' Credentials to Ansible Tower for git authentication
   - name: GIT PUSH
-    shell: "git push"
-    register: git_push 
-
-
-# Beware: this will output your Source Control creds as part of the git URL https://user:password@github.com/<repo>
-#  - name: OUTPUT GIT PUSH RESULT
-#    debug:
-#      msg: "git push output = {{ git_push }}"
-
-  
-
-  
+    shell: git push
