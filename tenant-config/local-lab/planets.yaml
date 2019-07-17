@@ -23,3 +23,11 @@ applications:
     - 1.1.1.43
     template: http
     vs_ip: 1.1.1.4
+-   app_name: mercury
+    bigip: local-lab
+    members:
+    - 1.1.1.11
+    - 1.1.1.12
+    - 1.1.1.13
+    template: http
+    vs_ip: 1.1.1.1
