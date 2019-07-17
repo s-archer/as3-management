@@ -1,31 +1,9 @@
 ---
 - name: APPEND NEW APPS TO TENANT
-  # Master version
   #  hosts: bigip     # this refers to inventory on tower
   hosts: localhost    
   gather_facts: false
   connection: local
-    
-
-  vars:
-    uri_method: "POST"
-    # default 'empty' application var to be used when first creating a new tenant
-    #applications: []
-    # temp vars for local testing only - these will come from tower
-    tower_action: add
-    tower_bigip: "local-lab"
-    tower_tenant: "planets"
-    tower_app_name: mars
-    tower_app_template: http
-    tower_app_vs_ip: 1.1.3.4
-    tower_app_members:
-      - 1.1.3.41
-      - 1.1.3.42
-      - 1.1.3.43
-
-
-  vars_files:
-    - ../../creds/big_creds.yaml
   
 
   tasks:
@@ -59,23 +37,23 @@
 
   - name: DEBUG - APPLICATION VAR *** TENANT EXISTING *** 
     debug:
-      msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** BEFORE *** "
+      msg: "{{ existing_apps_length }} existing 'applications' {{ applications }} *** TENANT EXISTING *** "
     when: applications is defined
 
 
   - name: ADD (UNION) NEW APP TO APPLICATIONS VAR
     set_fact:
       new_applications: '{{ applications | union(format_new_app) }}'
-  
+
 
   - name: COUNT APPS IN UPDATED APPLICATION VAR
     set_fact:
       new_apps_length: "{{ new_applications|length }}"
 
 
-  - name: DEBUG - APPLICATION VAR *** AFTER *** 
+  - name: DEBUG - APPLICATION VAR *** TENANT NEW *** 
     debug:
-      msg: "{{ new_apps_length }} total 'applications' {{ applications }} *** AFTER *** "
+      msg: "{{ new_apps_length }} total 'applications' {{ new_applications }} *** TENANT NEW *** "
     when: applications is defined
 
 
@@ -95,7 +73,7 @@
        # temporary for local testing
        url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
        #url: "https://18.197.139.41/mgmt/shared/appsvcs/declare"
-       method: "{{ uri_method }}"
+       method: POST
        #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
        #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
        # temporary for local testing
@@ -115,7 +93,18 @@
 
   - name: GIT ADD TENANT FILE TO LOCAL REPO
     shell: git add '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
-  
+
+
+  - name: SET USERNAME FOR GIT COMMIT 
+    shell: git config user.email ansible@tower.com; git config user.name Ansible_Tower
+    register: config_command_result
+    failed_when: "'fail' in config_command_result.stdout"
+
+
+  - name: OUTPUT GIT CONFIG COMMAND RESULT
+    debug:
+      msg: "git returned = {{ config_command_result }}"
+
 
   - name: GIT COMMIT  
     shell: git commit -a -m 'update ../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
@@ -123,14 +112,21 @@
     failed_when: "'fail' in command_result.stdout"
 
 
-  - name: DEBUG GIT OUTPUT
+  - name: DEBUG GIT COMMIT OUTPUT
     debug:
       msg: "git returned = {{ command_result.stdout }}"
   
 
+# The command below requires you to add 'Source Control' Credentials to Ansible Tower for git authentication
   - name: GIT PUSH
-    shell: git push  
-  
+    shell: "git push"
+    register: git_push 
+
+
+# Beware: this will output your Source Control creds as part of the git URL https://user:password@github.com/<repo>
+#  - name: OUTPUT GIT PUSH RESULT
+#    debug:
+#      msg: "git push output = {{ git_push }}"
 
   
 

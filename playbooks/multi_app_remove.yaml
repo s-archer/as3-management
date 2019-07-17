@@ -1,6 +1,6 @@
 ---
 - name: REMOVE APP FROM TENANT
-  #  hosts: bigip     # this refers to inventory on tower
+  #hosts: bigip     # this refers to inventory on tower
   hosts: localhost    # this refers to inventory on tower
   gather_facts: false
   connection: local
