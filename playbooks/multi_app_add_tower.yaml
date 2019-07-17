@@ -80,6 +80,7 @@
        body: "{{ tenant_body }}"
        body_format: json
 
+
 # After AS3 is successfully deployed, update the source of truth
 
   - name: WRITE NEW SOURCE OF TRUTH TO LOCAL FILE
