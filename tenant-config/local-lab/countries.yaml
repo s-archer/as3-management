@@ -1,12 +1,4 @@
 applications:
--   app_name: england
-    bigip: local-lab
-    members:
-    - 1.1.5.41
-    - 1.1.5.42
-    - 1.1.5.43
-    template: http
-    vs_ip: 1.1.5.4
 -   app_name: wales
     bigip: local-lab
     members:
