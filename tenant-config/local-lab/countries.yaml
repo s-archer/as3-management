@@ -7,3 +7,11 @@ applications:
     - 1.1.5.43
     template: http
     vs_ip: 1.1.5.4
+-   app_name: wales
+    bigip: local-lab
+    members:
+    - 1.1.5.61
+    - 1.1.5.62
+    - 1.1.5.63
+    template: http
+    vs_ip: 1.1.5.6
