@@ -2,10 +2,10 @@
 tower_action: add
 tower_bigip: "local-lab"
 tower_tenant: "planets"
-tower_app_name: mars
+tower_app_name: jupiter
 tower_app_template: http
-tower_app_vs_ip: 1.1.1.4
+tower_app_vs_ip: 1.1.1.5
 tower_app_members:
-  - 1.1.1.41
-  - 1.1.1.42
-  - 1.1.1.43
+  - 1.1.1.51
+  - 1.1.1.52
+  - 1.1.1.53
