@@ -1,0 +1,26 @@
+---
+- name: REDEPLOY ALL TENANTS
+  # Master version
+  #  hosts: bigip     # this refers to inventory on tower
+  hosts: localhost    
+  gather_facts: false
+  connection: local
+    
+
+  vars:
+    uri_method: "POST"
+
+
+  vars_files:
+    - ../../creds/big_creds.yaml
+    - ../vars/tower_vars.yaml
+  
+
+  tasks:
+    - include_tasks: ../tasks/get-tenant-files.yaml
+    - include_tasks: ../tasks/deploy-all-tenants.yaml
+      loop: "{{ tenant_file_list.files }}"
+      loop_control:
+        loop_var: file_meta
+
+...

@@ -1,0 +1,19 @@
+---
+
+  - name: MAKE SURE WE ARE UP TO DATE - GIT PULL
+    shell: git pull
+
+
+  - name: FIND ALL TENANT FILES
+    find:
+      paths: "../tenant-config/{{ tower_bigip }}"
+      patterns: "*.yaml"
+    register: tenant_file_list
+
+
+  - name: DEBUG OUT TENANT FILE LIST
+    debug:
+      msg: "{{ item.path }} "
+    loop: "{{ tenant_file_list.files }}"
+
+...

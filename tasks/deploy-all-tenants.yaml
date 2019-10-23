@@ -1,0 +1,51 @@
+---
+
+
+
+  - name: GET TENANT NAME FROM FILE NAME
+    set_fact:
+      tower_tenant: "{{ file_meta.path | basename | splitext | first }}"
+
+
+  - name: GET APPLICATION VARS FROM TENANT CONFIG FILE 
+    include_vars:
+      file: "{{ file_meta.path }}"
+
+
+  - name: COUNT APPS IN ORIGIN APPLICATION VAR 
+    set_fact:
+      existing_apps_length: "{{ applications|length }}"
+
+
+  - name: SET VARIABLE FOR USE IN J2
+    set_fact:
+      new_applications: '{{ applications }}'
+
+
+  - name: RENDER TEMPLATE
+    set_fact:
+      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
+
+
+  - name: DEBUG - TENANT BODY (AS3)
+    debug:
+      msg: "{{ tenant_body }}"
+
+
+  - name: URI POST AS3 TO BIG-IP '{{ tower_bigip }}', TENANT '{{ tower_tenant }}'
+    uri:
+       #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
+       # temporary for local testing
+       url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
+       #url: "https://18.197.139.41/mgmt/shared/appsvcs/declare"
+       method: "{{ uri_method }}"
+       #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+       #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
+       # temporary for local testing
+       user: "{{bigip_user_easy}}"
+       password: "{{bigip_pass_easy}}"
+       validate_certs: no
+       body: "{{ tenant_body }}"
+       body_format: json
+
+...
