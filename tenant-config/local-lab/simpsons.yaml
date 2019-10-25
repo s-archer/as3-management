@@ -23,3 +23,11 @@ applications:
     - 1.1.2.33
     template: http
     vs_ip: 1.1.2.3
+-   app_name: dr-nick
+    bigip: local-lab
+    members:
+    - 1.1.2.41
+    - 1.1.2.42
+    - 1.1.2.43
+    template: http
+    vs_ip: 1.1.2.4
