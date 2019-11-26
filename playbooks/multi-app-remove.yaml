@@ -80,14 +80,16 @@
     uri:
        #url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing
-       url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
-       #url: "https://18.197.139.41/mgmt/shared/appsvcs/declare"
+       #url: "https://10.1.1.245/mgmt/shared/appsvcs/declare"
+       url: "https://3.10.32.58/mgmt/shared/appsvcs/declare"
        method: "{{ uri_method }}"
        #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
        #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
        # temporary for local testing
-       user: "{{bigip_user_easy}}"
-       password: "{{bigip_pass_easy}}"
+       #user: "{{bigip_user_easy}}"
+       #password: "{{bigip_pass_easy}}"
+       user: "{{bigip_user_autows}}"
+       password: "{{bigip_pass_autows}}"
        validate_certs: no
        body: "{{ tenant_body }}"
        body_format: json
