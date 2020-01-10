@@ -1,4 +1,5 @@
 # temp vars for local testing only - these will come from tower
+bigip_mgmt_ip: "3.10.32.58"
 tower_action: add
 tower_bigip: "local-lab"
 tower_tenant: "planets"
