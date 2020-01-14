@@ -1,0 +1,33 @@
+applications:
+-   app_name: homer
+    bigip: local-lab
+    members:
+    - 1.1.2.11
+    - 1.1.2.12
+    - 1.1.2.13
+    template: http
+    vs_ip: 1.1.2.1
+-   app_name: marge
+    bigip: local-lab
+    members:
+    - 1.1.2.21
+    - 1.1.2.22
+    - 1.1.2.23
+    template: http
+    vs_ip: 1.1.2.2
+-   app_name: krusty
+    bigip: local-lab
+    members:
+    - 1.1.2.31
+    - 1.1.2.32
+    - 1.1.2.33
+    template: http
+    vs_ip: 1.1.2.3
+-   app_name: drnick
+    bigip: local-lab
+    members:
+    - 1.1.2.41
+    - 1.1.2.42
+    - 1.1.2.43
+    template: http
+    vs_ip: 1.1.2.4
