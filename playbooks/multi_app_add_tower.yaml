@@ -64,7 +64,7 @@
 
   - name: DEBUG - TENANT BODY (AS3)
     debug:
-      msg: "{{ tenant_body }}"
+      msg: "{{ tenant_body | to_nice_json }}"
 
 
   - name: URI POST AS3 TO BIG-IP '{{ tower_bigip }}', TENANT '{{ tower_tenant }}'
