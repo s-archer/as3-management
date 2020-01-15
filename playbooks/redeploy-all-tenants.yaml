@@ -1,8 +1,7 @@
 ---
 - name: REDEPLOY ALL TENANTS
   # Master version
-  #  hosts: bigip     # this refers to inventory on tower
-  hosts: localhost    
+  hosts: bigip     
   gather_facts: false
   connection: local
     
