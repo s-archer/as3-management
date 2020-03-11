@@ -116,3 +116,5 @@
 
   - name: GIT PUSH
     shell: git push  
+
+...
