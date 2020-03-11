@@ -74,9 +74,9 @@
       tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
 
 
-    - name: OUTPUT RENDERED AS3
-      debug:
-        msg: "{{ tenant_body | to_nice_json }}"
+  - name: OUTPUT RENDERED AS3
+    debug:
+      msg: "{{ tenant_body | to_nice_json }}"
 
 
   - name: URI POST AS3 TO BIG-IP '{{ tower_bigip }}', TENANT '{{ tower_tenant }}'
