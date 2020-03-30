@@ -3,10 +3,10 @@ bigip_mgmt_ip: "3.10.32.58"
 tower_action: add
 tower_bigip: "local-lab"
 tower_tenant: "planets"
-tower_app_name: "jupiter"
+tower_app_name: "uranus"
 tower_app_template: "http"
-tower_app_vs_ip: 1.1.1.5
+tower_app_vs_ip: 1.1.1.6
 tower_app_members:
-  - 1.1.1.51
-  - 1.1.1.52
-  - 1.1.1.53
+  - 1.1.1.61
+  - 1.1.1.62
+  - 1.1.1.63
