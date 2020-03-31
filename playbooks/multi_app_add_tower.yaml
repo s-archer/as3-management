@@ -1,7 +1,6 @@
 ---
 - name: APPEND NEW APPS TO TENANT
-  #  hosts: bigip     # this refers to inventory on tower
-  # hosts: localhost    
+  hosts: eu-west-2     # this refers to aws inventory group 'eu-west-2' on tower
   gather_facts: false
   connection: local
   
