@@ -58,7 +58,8 @@
 
   - name: RENDER TEMPLATE
     set_fact:
-      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2' | to_json ) }}"
+      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2') | to_json }}"
+
 
   - name: OUTPUT RENDERED AS3
     debug:
