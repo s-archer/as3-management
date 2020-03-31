@@ -82,7 +82,7 @@
   - name: URI POST AS3 TO BIG-IP '{{ tower_bigip }}', TENANT '{{ tower_tenant }}'
     uri:
        url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
-       method: "{{ uri_method }}"
+       method: POST
        #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
        #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
        user: "{{bigip_user_autows}}"
