@@ -61,11 +61,6 @@
       tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
 
 
-  - name: FORMAT TEMPLATE
-    set_fact:
-      tenant_body: "{{ tenant_body | to_json }}"
-
-
   - name: OUTPUT RENDERED AS3
     debug:
       msg: "{{ tenant_body }}"
@@ -79,7 +74,7 @@
        password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
        validate_certs: no
        body: "{{ tenant_body }}"
-       body_format: json
+       #body_format: json
 
 
 # After AS3 is successfully deployed, update the source of truth
