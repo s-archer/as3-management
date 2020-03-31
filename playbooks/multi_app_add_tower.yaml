@@ -63,7 +63,7 @@
 
   - name: RENDER TEMPLATE
     set_fact:
-      tenant_body: "{{ tenant_body | replace('\n', '' ) }}"
+      tenant_body: "{{ tenant_body }}"
 
 
   - name: OUTPUT RENDERED AS3
