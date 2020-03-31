@@ -1,6 +1,6 @@
 ---
 - name: APPEND NEW APPS TO TENANT
-  hosts: eu-west-2     # this refers to aws inventory group 'eu-west-2' on tower
+  hosts: all     # this means tower is handling the inventory
   gather_facts: false
   connection: local
   
@@ -63,7 +63,7 @@
 
   - name: OUTPUT RENDERED AS3
     debug:
-      msg: "{{ tenant_body | to_nice_json }}"
+      msg: "{{ tenant_body }}"
 
 
   - name: URI POST AS3 TO BIG-IP '{{ tower_bigip }}', TENANT '{{ tower_tenant }}'
