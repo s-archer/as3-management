@@ -58,12 +58,12 @@
 
   - name: RENDER TEMPLATE
     set_fact:
-      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=True) | replace('\n', '' ) }}"
+      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=True) }}"
 
 
-  #- name: RENDER TEMPLATE
-  #  set_fact:
-  #    tenant_body: "{{ tenant_body }}"
+  - name: RENDER TEMPLATE
+    set_fact:
+      tenant_body: "{{ tenant_body | replace('\n', '' ) }}"
 
 
   - name: OUTPUT RENDERED AS3
