@@ -61,9 +61,9 @@
       tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
 
 
-  #- name: FORMAT TEMPLATE
-  #  set_fact:
-  #    tenant_body: "{{ tenant_body | to_json }}"
+  - name: FORMAT TEMPLATE
+    set_fact:
+      tenant_body: "{{ tenant_body | to_json }}"
 
 
   - name: OUTPUT RENDERED AS3
