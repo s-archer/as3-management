@@ -58,7 +58,7 @@
 
   - name: RENDER TEMPLATE
     set_fact:
-      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=True) }}"
+      tenant_body: "{{ lookup('template', '../j2/multi_app_macro.j2', split_lines=False) }}"
 
 
   - name: RENDER TEMPLATE
