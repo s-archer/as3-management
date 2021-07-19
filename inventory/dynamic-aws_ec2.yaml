@@ -26,7 +26,7 @@ regions:
 hostnames:
   - ip-address
 groups:
-  bigip: "'arch-bigip-' in tags.Name"
+  bigip: "'arch-quickdemo-tf-f5' in tags.Name"
 compose:
   # set the ansible_host variable to connect with the private IP address without changing the hostname
   ec2_int_ids: 'network_interfaces | json_query("[*].network_interface_id")'

@@ -10,7 +10,8 @@
 
 
   vars_files:
-    - ../../creds/big_creds.yaml
+    #- ../../creds/big_creds.yaml
+    - ../../creds/terraform_output_creds.yaml
     - ../vars/tower_vars.yaml
   
 
@@ -85,8 +86,8 @@
        method: POST
        #user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
        #password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
-       user: "{{bigip_user_autows}}"
-       password: "{{bigip_pass_autows}}"
+       user: "{{bigip_user}}"
+       password: "{{bigip_pass}}"
        validate_certs: no
        body: "{{ tenant_body }}"
        body_format: json
