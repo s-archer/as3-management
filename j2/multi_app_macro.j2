@@ -1,8 +1,7 @@
 {% macro http_app(app) %}
     "{{ app.app_name }}": {
         "class": "Application",
-        "template": "http",
-        "serviceMain": {
+        "{{ app.app_name }}": {
             "class": "Service_HTTP",
             "virtualAddresses": [
                 "{{ app.vs_ip }}"
@@ -31,8 +30,7 @@
 {% macro https_app(app) %}
     "{{ app.app_name }}": {
         "class": "Application",
-        "template": "https",
-        "serviceMain": {
+        "{{ app.app_name }}": {
             "class": "Service_HTTPS",
             "serverTLS": "TLS_Offload",
             "virtualAddresses": [
