@@ -23,3 +23,11 @@ applications:
     - 1.1.1.43
     template: http
     vs_ip: 1.1.1.4
+-   app_name: pluto
+    bigip: local-lab
+    members:
+    - 1.1.1.61
+    - 1.1.1.62
+    - 1.1.1.63
+    template: http
+    vs_ip: 1.1.1.6
