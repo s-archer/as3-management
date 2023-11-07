@@ -22,11 +22,13 @@
 
 plugin: aws_ec2
 regions:
-  - eu-west-2
+  - eu-west-1
 hostnames:
   - ip-address
 groups:
-  bigip: "'arch-quickdemo-tf-f5' in tags.Name"
+  # bigip: "'arch-quickdemo-tf-f5' in tags.Name"
+  bigip: "'arch-hashi-f5-demo-f5-1' in tags.Name"
+  
 compose:
   # set the ansible_host variable to connect with the private IP address without changing the hostname
   ec2_int_ids: 'network_interfaces | json_query("[*].network_interface_id")'
