@@ -10,8 +10,8 @@
 
 
   vars_files:
-    #- ../../creds/big_creds.yaml
-    - ../../creds/terraform_output_creds.yaml
+    #- ../../../creds/big_creds.yaml
+    - ../../../creds/terraform_output_creds.yaml
     - ../vars/tower_vars.yaml
   
 
