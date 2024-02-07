@@ -11,8 +11,8 @@
 
 
   vars_files:
-    #- ../../creds/big_creds.yaml
-    - ../../creds/terraform_output_creds.yaml
+    #- ../../../creds/big_creds.yaml
+    - ../../../creds/terraform_output_creds.yaml
     - ../vars/tower_vars.yaml
 
 
@@ -20,7 +20,7 @@
 
   - name: FORMAT USER INPUT VARIABLES INTO NESTED LIST
     set_fact:
-      format_new_app: [{	"app_name": "{{ tower_app_name }}","bigip": "{{ tower_bigip }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
+      format_new_app: [{"app_name": "{{ tower_app_name }}","bigip": "{{ tower_bigip }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
 
 
   - name: IF NOT EXIST, TOUCH TENANT CONFIG FILE
