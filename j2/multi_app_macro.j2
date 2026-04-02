@@ -87,7 +87,7 @@
         "id": "CR000008",
         "label": "test-label",
         "remark": "test-remark",
-        "{{ tower_tenant }}": {
+        "{{ tenant }}": {
             "class": "Tenant",
             {% for app in new_applications %}
                 {{ render_app(app) }}

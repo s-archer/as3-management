@@ -6,7 +6,7 @@
 
   - name: FIND ALL TENANT FILES
     find:
-      paths: "../tenant-config/{{ tower_bigip }}"
+      paths: "../tenant-config/{{ bigip }}"
       patterns: "*.yaml"
     register: tenant_file_list
 

@@ -4,7 +4,7 @@
 
   - name: GET TENANT NAME FROM FILE NAME
     set_fact:
-      tower_tenant: "{{ file_meta.path | basename | splitext | first }}"
+      tenant: "{{ file_meta.path | basename | splitext | first }}"
 
 
   - name: GET APPLICATION VARS FROM TENANT CONFIG FILE 
@@ -32,7 +32,7 @@
       msg: "{{ tenant_body }}"
 
 
-  - name: URI POST AS3 TO BIG-IP '{{ inventory_hostname }}', TENANT '{{ tower_tenant }}'
+  - name: URI POST AS3 TO BIG-IP '{{ inventory_hostname }}', TENANT '{{ tenant }}'
     uri:
        url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        # temporary for local testing

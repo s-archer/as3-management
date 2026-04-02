@@ -1,0 +1,10 @@
+action: add
+bigip: "local-lab"
+tenant: "planets"
+app_name: "uranus"
+app_template: "http"
+app_vs_ip: 1.1.1.6
+app_members:
+  - 1.1.1.61
+  - 1.1.1.62
+  - 1.1.1.63

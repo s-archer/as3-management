@@ -12,7 +12,7 @@
   vars_files:
     #- ../../../creds/big_creds.yaml
     - ../../../creds/terraform_output_creds.yaml
-    - ../vars/tower_vars.yaml
+    - ../vars/vars.yaml
   
 
   tasks:

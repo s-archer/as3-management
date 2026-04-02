@@ -13,25 +13,25 @@
   vars_files:
     #- ../../../creds/big_creds.yaml
     - ../../../creds/terraform_output_creds.yaml
-    - ../vars/tower_vars.yaml
+    - ../vars/vars.yaml
 
 
   tasks:
 
   - name: FORMAT USER INPUT VARIABLES INTO NESTED LIST
     set_fact:
-      format_new_app: [{"app_name": "{{ tower_app_name }}","bigip": "{{ tower_bigip }}","template": "{{ tower_app_template }}","vs_ip": "{{ tower_app_vs_ip }}","members": "{{ tower_app_members }}"}]
+      format_new_app: [{"app_name": "{{ app_name }}","bigip": "{{ bigip }}","template": "{{ app_template }}","vs_ip": "{{ app_vs_ip }}","members": "{{ app_members }}"}]
 
 
   - name: IF NOT EXIST, TOUCH TENANT CONFIG FILE
     file:
-      path: "../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml"
+      path: "../tenant-config/{{ bigip }}/{{ tenant }}.yaml"
       state: touch
 
 
   - name: GET APPLICATION VARS FROM TENANT CONFIG FILE
     include_vars:
-      file: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
+      file: '../tenant-config/{{ bigip }}/{{ tenant }}.yaml'
 
 
   - name: IF APPLICATION VAR EMPTY, ADD NEW APP TO VAR
@@ -76,7 +76,7 @@
       msg: "{{ tenant_body }}"
 
 
-  - name: URI POST AS3 TO BIG-IP '{{ tower_bigip }}', TENANT '{{ tower_tenant }}'
+  - name: URI POST AS3 TO BIG-IP '{{ bigip }}', TENANT '{{ tenant }}'
     uri:
        url: "https://{{ inventory_hostname }}/mgmt/shared/appsvcs/declare"
        method: "{{ uri_method }}"
@@ -93,11 +93,11 @@
   - name: WRITE NEW SOURCE OF TRUTH TO LOCAL FILE
     copy:
       content: "{{ { 'applications': new_applications } | to_nice_yaml() }}"
-      dest: '../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
+      dest: '../tenant-config/{{ bigip }}/{{ tenant }}.yaml'
 
   
   - name: GIT COMMIT 
-    shell: git commit -a -m 'update ../tenant-config/{{ tower_bigip }}/{{ tower_tenant }}.yaml'
+    shell: git commit -a -m 'update ../tenant-config/{{ bigip }}/{{ tenant }}.yaml'
     register: command_result
     failed_when: "'fail' in command_result.stdout"
 
