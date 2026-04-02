@@ -13,7 +13,7 @@
 
   - name: DEBUG OUT TENANT FILE LIST
     debug:
-      msg: "{{ item.path }} "
+      msg: "{{ item.path }}"
     loop: "{{ tenant_file_list.files }}"
 
 ...
